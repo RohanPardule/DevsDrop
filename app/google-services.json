@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "73850657037",
+    "firebase_url": "https://devsdrop-5043d-default-rtdb.firebaseio.com",
+    "project_id": "devsdrop-5043d",
+    "storage_bucket": "devsdrop-5043d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73850657037:android:390b58234925bd9363f844",
+        "android_client_info": {
+          "package_name": "com.example.devdrops"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73850657037-cp18ra40cih3t85g5fdq5kn9bl4p4ouu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.devdrops",
+            "certificate_hash": "85b7ca141d9dac5e2b1bd23850d69f1b16467d79"
+          }
+        },
+        {
+          "client_id": "73850657037-346ddgc2pqvldj85o95rss5u6e22lkob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCYw2HxA_Qw98OFAblZpN-GJFj2cFlC14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73850657037-346ddgc2pqvldj85o95rss5u6e22lkob.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
