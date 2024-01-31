@@ -36,7 +36,7 @@
         android:id="@+id/newsAppIcon"
         android:layout_width="@dimen/_35sdp"
         android:layout_height="@dimen/_35sdp"
-        android:src="@drawable/ic_news"
+        android:src="@drawable/news_icon"
         android:scaleType="centerCrop"
         android:background="@color/Secondary_blue"
         android:layout_marginTop="7dp"
