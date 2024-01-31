@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.example.devdrops.fragments.AddPostFragment;
-import com.example.devdrops.fragments.HomeFragment;
+import com.example.devdrops.fragments.PostFragment;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
 import me.ibrahimsn.lib.SmoothBottomBar;
@@ -25,15 +25,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         smoothBottomBar = findViewById(R.id.bottomNav);
-        loadFragment(new HomeFragment());
+        loadFragment(new PostFragment());
 
         smoothBottomBar.setOnItemSelectedListener((OnItemSelectedListener) i -> {
 
             if (i == 0) {
-                loadFragment(new HomeFragment());
+                loadFragment(new PostFragment());
             }
-//            } else if (i == 1) {
-//                loadFragment(new Forum());
+//            else if (i == 1) {
+//
 //            }
             else if (i == 2) {
                 loadFragment(new AddPostFragment());
