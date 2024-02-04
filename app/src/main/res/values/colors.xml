@@ -10,4 +10,10 @@
     <color name="midnight_blue_3">#083F86</color>
     <color name="circle">#5A9ED7</color>
     <color name="shadow_grey">#AAA5A5</color>
+
+    <color name="black_shade_1">#343a40</color>
+    <color name="text_grey">#53575D</color>
+    <color name="grey">#495057</color>
+    <color name="yellow">#ffd60a</color>
+
 </resources>

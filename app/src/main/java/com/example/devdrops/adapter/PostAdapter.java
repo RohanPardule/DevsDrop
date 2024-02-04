@@ -65,7 +65,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
         holder.time.setText(formattedDate.toString());
 
         holder.like.setText(model.getPostLike()+"");
-        holder.comment.setText(model.getCommentCount()+"");
+//        holder.comment.setText(model.getCommentCount()+"");
 
         String description = model.getPostDescription();
         if (description.equals("")){
@@ -183,6 +183,32 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
                                 if (snapshot.exists()) {
                                     // User has already liked, implement unlike logic here if needed
                                     // ...
+
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("posts")
+                                            .child(postId)
+                                            .child("likes")
+                                            .child(FirebaseAuth.getInstance().getUid())
+                                            .removeValue()     //can use delete too if it wont work
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    // Update local data (increment like count and change drawable)
+                                                    model.setPostLike(model.getPostLike() - 1);
+                                                    holder.like.setText(String.valueOf(model.getPostLike()));
+                                                    holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like, 0, 0, 0);
+
+                                                    // Update postLike count in the database
+                                                    FirebaseDatabase.getInstance().getReference()
+                                                            .child("posts")
+                                                            .child(postId)
+                                                            .child("postLike")
+                                                            .setValue(model.getPostLike());
+
+
+                                         }
+                                           });
+
                                 } else {
                                     // User has not liked, implement like logic here
                                     FirebaseDatabase.getInstance().getReference()
@@ -274,8 +300,9 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
     class DashBoardModelsViewholder
             extends RecyclerView.ViewHolder {
 
-        ImageView post_image,menu;
-        TextView username,description,like,comment,time;
+        ImageView post_image,menu,comment;
+        TextView username,description,like,time;
+
 
 
         public DashBoardModelsViewholder(@NonNull View itemView)

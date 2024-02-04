@@ -20,9 +20,7 @@
         <activity
             android:name=".login.SignInActivity"
             android:exported="false" />
-        <activity
-            android:name=".login.SignInSignUpActivity"
-            android:exported="false" />
+
         <activity
             android:name=".splashscreen.SplashScreenActivity"
             android:exported="true">
@@ -32,6 +30,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".news.NewsDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".news.NewsActivity"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="false" />

@@ -127,7 +127,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/signUp_btn"
+        android:id="@+id/signUp_button"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

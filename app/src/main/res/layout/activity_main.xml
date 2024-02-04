@@ -45,6 +45,19 @@
         app:layout_constraintBottom_toBottomOf="@+id/toolBar"
         app:layout_constraintEnd_toEndOf="@+id/toolBar"
         app:layout_constraintTop_toTopOf="@+id/toolBar" />
+    <ImageButton
+        android:id="@+id/notification"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:src="@drawable/notification"
+        android:scaleType="centerCrop"
+        android:background="@color/Secondary_blue"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolBar"
+        app:layout_constraintEnd_toStartOf="@+id/newsAppIcon"
+        app:layout_constraintTop_toTopOf="@+id/toolBar" />
 
 
     <me.ibrahimsn.lib.SmoothBottomBar

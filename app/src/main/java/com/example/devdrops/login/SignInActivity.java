@@ -73,7 +73,7 @@ googleBtn=findViewById(R.id.linearLayout);
         });
         sign_up_text.setOnClickListener(view -> {
             startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
-            overridePendingTransition(R.anim.enter, R.anim.exit);
+//            overridePendingTransition(R.anim.enter, R.anim.exit);
             finish();
         });
 
@@ -127,7 +127,7 @@ googleBtn=findViewById(R.id.linearLayout);
             }
             catch (Exception e)
             {
-
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         }
     }

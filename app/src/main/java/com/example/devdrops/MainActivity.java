@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 
 import com.example.devdrops.fragments.AddPostFragment;
 import com.example.devdrops.fragments.PostFragment;
+import com.example.devdrops.news.NewsActivity;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
 import me.ibrahimsn.lib.SmoothBottomBar;
@@ -16,13 +19,19 @@ import me.ibrahimsn.lib.SmoothBottomBar;
 public class MainActivity extends AppCompatActivity {
 
     SmoothBottomBar smoothBottomBar;
+    ImageButton newsIcon;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+newsIcon=findViewById(R.id.newsAppIcon);
+newsIcon.setOnClickListener(view -> {
+    Intent i=new Intent(MainActivity.this, NewsActivity.class);
+    startActivity(i);
+    overridePendingTransition(R.anim.enter, R.anim.exit);
+});
 
         smoothBottomBar = findViewById(R.id.bottomNav);
         loadFragment(new PostFragment());

@@ -85,13 +85,14 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/profileImage"
         app:layout_constraintTop_toBottomOf="@+id/profileImage"
-        app:riv_corner_radius="5dip" />
+        app:riv_corner_radius="15dip" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="@dimen/_2sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,33 +101,33 @@
 
         <TextView
             android:id="@+id/like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_22sdp"
             android:layout_marginStart="16dp"
-
             android:drawableLeft="@drawable/ic_like"
             android:drawablePadding="10dp"
             android:gravity="center"
             android:text="247"
             android:textSize="12sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
             android:layout_marginStart="@dimen/_15sdp"
-            android:drawableLeft="@drawable/ic_comment"
+            android:src="@drawable/chat"
             android:drawablePadding="10dp"
             android:gravity="center"
             android:text="57"
             android:textSize="12sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
             android:layout_marginStart="32dp"
-            android:drawableLeft="@drawable/ic_share"
+            android:src="@drawable/download"
+
             android:drawablePadding="10dp"
             android:gravity="center"
             android:textSize="14sp"
@@ -135,17 +136,7 @@
             app:layout_constraintTop_toTopOf="@+id/comment" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/save_post"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:baselineAlignBottom="true"
-        android:src="@drawable/ic_save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dashBoard_postImage"
 
-        app:layout_constraintVertical_bias="0.18" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -81,18 +81,9 @@ public class AddPostFragment extends Fragment {
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
 
-        FirebaseUser user = auth.getCurrentUser();
 
-        if (user != null) {
-            // User is signed in, proceed with database operations
-            // ...
-            Toast.makeText(getContext(), "Signed in Successfully", Toast.LENGTH_SHORT).show();
 
-        } else {
-            // User is not signed in, handle accordingly
-            Toast.makeText(getContext(), "not signed in ", Toast.LENGTH_SHORT).show();
 
-        }
 
         database.getReference().child("users")
                 .child(FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -141,21 +132,49 @@ public class AddPostFragment extends Fragment {
             }
         });
 
+//        binding.addImg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//                    // Permission is already granted, proceed to pick image
+//                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//
+//                    intent.setAction(Intent.ACTION_GET_CONTENT);
+//                    intent.setType("image/*");
+//                    startActivityForResult(intent, REQUEST_PICK_IMAGE);
+//                } else {
+//                    // Request the READ_EXTERNAL_STORAGE permission
+//                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
+//                }
+//
+//            }
+//        });
+
         binding.addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    // Permission is already granted, proceed to pick image
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    intent.setType("image/*");
-                    startActivityForResult(intent, REQUEST_PICK_IMAGE);
+                if (ContextCompat.checkSelfPermission(
+                        requireActivity(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED) {
+                    // Permission not granted, request it
+                    ActivityCompat.requestPermissions(
+                            requireActivity(),
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_PERMISSION_READ_EXTERNAL_STORAGE
+                    );
                 } else {
-                    // Request the READ_EXTERNAL_STORAGE permission
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
+                    // Permission already granted
+                    pickImage();
+                    // Handle the case where permission is already granted
                 }
-
+//                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//                    // Permission is already granted, proceed to pick image
+//                    pickImage();
+//                } else {
+//                    // Request the READ_EXTERNAL_STORAGE permission
+//                    requestReadExternalStoragePermission();
+//                }
             }
         });
 
@@ -237,6 +256,7 @@ public class AddPostFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+
         if (requestCode == REQUEST_PERMISSION_READ_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, proceed to pick image
@@ -255,5 +275,19 @@ public class AddPostFragment extends Fragment {
             InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+    private void pickImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_PICK_IMAGE);
+    }
+
+    private void requestReadExternalStoragePermission() {
+        ActivityCompat.requestPermissions(
+                requireActivity(),
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                REQUEST_PERMISSION_READ_EXTERNAL_STORAGE
+        );
     }
 }
