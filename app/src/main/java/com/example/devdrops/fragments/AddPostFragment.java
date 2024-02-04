@@ -1,11 +1,14 @@
 package com.example.devdrops.fragments;
 
+import static android.os.Build.VERSION.SDK_INT;
+
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +17,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -153,6 +157,36 @@ public class AddPostFragment extends Fragment {
         binding.addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (SDK_INT >= Build.VERSION_CODES.R) {
+                    Log.d("myz", ""+SDK_INT);
+                    if (!Environment.isExternalStorageManager()) {
+                        ActivityCompat.requestPermissions(requireActivity(),
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                                        Manifest.permission.MANAGE_EXTERNAL_STORAGE}, 1);//permission request code is just an int
+                    }
+
+
+
+                }else {
+
+                    Toast.makeText(requireContext(), "1", Toast.LENGTH_SHORT).show();
+
+                    if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    {
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                        Toast.makeText(requireContext(), "2", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else {
+                        pickImage();
+                    }
+
+
+                }
+
+
                 if (ContextCompat.checkSelfPermission(
                         requireActivity(),
                         Manifest.permission.READ_EXTERNAL_STORAGE
@@ -168,14 +202,9 @@ public class AddPostFragment extends Fragment {
                     pickImage();
                     // Handle the case where permission is already granted
                 }
-//                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-//                    // Permission is already granted, proceed to pick image
-//                    pickImage();
-//                } else {
-//                    // Request the READ_EXTERNAL_STORAGE permission
-//                    requestReadExternalStoragePermission();
-//                }
-            }
+
+////
+}
         });
 
         binding.postBtn.setOnClickListener(new View.OnClickListener() {
@@ -281,6 +310,7 @@ public class AddPostFragment extends Fragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_PICK_IMAGE);
+
     }
 
     private void requestReadExternalStoragePermission() {
