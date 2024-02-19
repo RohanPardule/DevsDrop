@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 
 import com.example.devdrops.fragments.AddPostFragment;
+import com.example.devdrops.fragments.DoubtFragment;
+import com.example.devdrops.fragments.NotificationActivity;
 import com.example.devdrops.fragments.PostFragment;
+import com.example.devdrops.fragments.ProfileFragment;
 import com.example.devdrops.news.NewsActivity;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
@@ -20,13 +23,20 @@ public class MainActivity extends AppCompatActivity {
 
     SmoothBottomBar smoothBottomBar;
     ImageButton newsIcon;
-
+ImageButton notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 newsIcon=findViewById(R.id.newsAppIcon);
+notification=findViewById(R.id.notification);
+
+notification.setOnClickListener(view -> {
+    Intent i=new Intent(MainActivity.this, NotificationActivity.class);
+    startActivity(i);
+    overridePendingTransition(R.anim.enter, R.anim.exit);
+});
 newsIcon.setOnClickListener(view -> {
     Intent i=new Intent(MainActivity.this, NewsActivity.class);
     startActivity(i);
@@ -41,15 +51,15 @@ newsIcon.setOnClickListener(view -> {
             if (i == 0) {
                 loadFragment(new PostFragment());
             }
-//            else if (i == 1) {
-//
-//            }
+            else if (i == 1) {
+                loadFragment(new DoubtFragment());
+            }
             else if (i == 2) {
                 loadFragment(new AddPostFragment());
             }
-//            else {
-//                loadFragment(new Profile());
-//            }
+            else {
+                loadFragment(new ProfileFragment());
+            }
 
             return true;
         });

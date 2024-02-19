@@ -1,14 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ProfileFragment">
+    tools:context="fragments.ProfileFragment"
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+   >
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_margin="20dp">
 
-</FrameLayout>
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:background="@drawable/circular_background"
+        android:backgroundTint="@color/gray"
+        android:src="@drawable/baseline_person_24"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/profile_imgView"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:padding="10dp"
+        android:hint="Username"
+        android:gravity="center"
+        android:id="@+id/profile_username"
+        android:inputType="text"
+        android:layout_margin="10dp"
+        android:elevation="5dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:hint="Proffesion"
+        android:id="@+id/profile_Proffesion"
+        android:inputType="text"
+
+        android:enabled="false"
+        android:elevation="5dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_margin="@dimen/_10sdp"
+        android:id="@+id/logout_btn"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="UPDATE PROFILE"
+            android:id="@+id/profile_update_btn"/>
+
+<androidx.recyclerview.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/profileRv"
+    />
+    </LinearLayout>
+</ScrollView>

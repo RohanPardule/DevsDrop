@@ -16,6 +16,7 @@ import com.example.devdrops.model.DashBoardModel;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 public class PostFragment extends Fragment {
 
@@ -42,19 +43,29 @@ RecyclerView recyclerView;
         recyclerView = rootView.findViewById(R.id.dashboardRV_test);
         mbase
                 = FirebaseDatabase.getInstance().getReference().child("posts");
-        recyclerView.setLayoutManager(
-                new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
 
-        // It is a class provide by the FirebaseUI to make a
+// Set the LayoutManager to the RecyclerView
+        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setLayoutManager(
+//                new LinearLayoutManager(getContext()));
+
+
         // query in the database to fetch appropriate data
+        Query query=mbase.orderByChild("postedAt").limitToLast(50);
         FirebaseRecyclerOptions<DashBoardModel> options
                 = new FirebaseRecyclerOptions.Builder<DashBoardModel>()
-                .setQuery(mbase.orderByChild("postedAt"), DashBoardModel.class)
+                .setQuery(query, DashBoardModel.class)
                 .build();
 
-        // the Adapter class itself
+
         adapter = new PostAdapter(options);
         // Connecting Adapter class with the Recycler view*/
+        // Reverse the order of elements in the adapter
+
+
         recyclerView.setAdapter(adapter);
        return rootView;
     }
@@ -70,5 +81,11 @@ RecyclerView recyclerView;
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }
