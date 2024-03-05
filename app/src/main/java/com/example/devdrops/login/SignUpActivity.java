@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText emailEditText, passwordEditText,username;
+    private EditText emailEditText, passwordEditText, username;
     Button signUpBtn;
     private FirebaseAuth mAuth;
     ProgressBar progressBar;
@@ -39,14 +39,15 @@ public class SignUpActivity extends AppCompatActivity {
 
         emailEditText = findViewById(R.id.email_address);
         passwordEditText = findViewById(R.id.create_password);
-        username=findViewById(R.id.create_username);
-        signUpBtn=findViewById(R.id.signUp_button);
-        progressBar=findViewById(R.id.progress_bar);
+        username = findViewById(R.id.create_username);
+        signUpBtn = findViewById(R.id.signUp_button);
+        progressBar = findViewById(R.id.progress_bar);
         setInProgress(false);
         signUpBtn.setOnClickListener(v -> {
             signUp();
         });
     }
+
     public void signUp() {
         setInProgress(true);
         String email = emailEditText.getText().toString().trim();
@@ -95,7 +96,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-//    public void signUp() {
+    //    public void signUp() {
 //        setInProgress(true);
 //        String email = emailEditText.getText().toString().trim();
 //        String password = passwordEditText.getText().toString().trim();
@@ -146,16 +147,13 @@ public class SignUpActivity extends AppCompatActivity {
 //                    }
 //                });
 //    }
-    void setInProgress(boolean inProgress)
-    {
-        if (inProgress)
-        {
+    void setInProgress(boolean inProgress) {
+        if (inProgress) {
             progressBar.setVisibility(View.VISIBLE);
             signUpBtn.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             progressBar.setVisibility(View.GONE);
-           signUpBtn.setVisibility(View.VISIBLE);
+            signUpBtn.setVisibility(View.VISIBLE);
         }
     }
 }

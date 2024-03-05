@@ -14,7 +14,7 @@
         android:layout_margin="20dp">
 
     <!-- TODO: Update blank fragment layout -->
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:background="@drawable/circular_background"
@@ -22,30 +22,31 @@
         android:src="@drawable/baseline_person_24"
         android:scaleType="centerCrop"
         android:layout_marginBottom="20dp"
-        android:id="@+id/profile_imgView"
+        android:id="@+id/profile_imageView"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:padding="10dp"
+
         android:hint="Username"
         android:gravity="center"
         android:id="@+id/profile_username"
         android:inputType="text"
-        android:layout_margin="10dp"
+
         android:elevation="5dp"
         />
-    <TextView
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:padding="10dp"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+
+        android:gravity="center_horizontal"
         android:hint="Proffesion"
+
         android:id="@+id/profile_Proffesion"
         android:inputType="text"
 
-        android:enabled="false"
-        android:elevation="5dp"
+        android:enabled="true"
+
         />
 
     <TextView

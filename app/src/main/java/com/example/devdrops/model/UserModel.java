@@ -5,6 +5,7 @@ public class UserModel {
     String username;
     String userId;
     String profession;
+    String profile;
 
     public UserModel(String email, String username, String userId, String profession) {
         this.email = email;
@@ -14,6 +15,14 @@ public class UserModel {
     }
 
     public UserModel() {
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
     public String getEmail() {

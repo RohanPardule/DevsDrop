@@ -94,9 +94,6 @@ public class AddPostFragment extends Fragment {
         dialog.setCanceledOnTouchOutside(false);
 
 
-
-
-
         database.getReference().child("users")
                 .child(FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -145,26 +142,19 @@ public class AddPostFragment extends Fragment {
         });
 
 
-
-
-
-
         binding.addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent= new Intent(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
 
                 pickImageActivityResultLauncher.launch(intent);
 
-                }
+            }
 
         });
-
-
-
 
 
         binding.postBtn.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +175,9 @@ public class AddPostFragment extends Fragment {
                         reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
+                                String postId = database.getReference().child("posts").push().getKey();
                                 DashBoardModel post = new DashBoardModel();
+                                post.setPostId(postId);
                                 post.setPostImage(uri.toString());
                                 post.setPostedBy(FirebaseAuth.getInstance().getUid());
                                 post.setPostDescription(desc);
@@ -193,14 +185,16 @@ public class AddPostFragment extends Fragment {
                                 post.setPostLike(0);
                                 post.setCommentCount(0);
 
+
                                 database.getReference().child("posts")
-                                        .push()
+                                        .child(postId)
                                         .setValue(post).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 dialog.dismiss();
                                                 binding.postImage.setVisibility(View.GONE);
                                                 binding.postDescription.setText("");
+
                                                 Toast.makeText(getContext(), "Posted Successfully", Toast.LENGTH_SHORT).show();
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
@@ -229,7 +223,6 @@ public class AddPostFragment extends Fragment {
     }
 
 
-
     public void hideKeyboard() {
         // Check if no view has focus:
         View view = getActivity().getCurrentFocus();
@@ -240,28 +233,22 @@ public class AddPostFragment extends Fragment {
     }
 
 
+    ActivityResultLauncher<Intent> pickImageActivityResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
 
+                        uri = data.getData();
+                        binding.postImage.setImageURI(uri);
+                        binding.postImage.setVisibility(View.VISIBLE);
 
-
-
-
-ActivityResultLauncher<Intent> pickImageActivityResultLauncher=
-        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-if (result.getResultCode()== Activity.RESULT_OK)
-{
-    Intent data=result.getData();
-
-    uri=data.getData();
-    binding.postImage.setImageURI(uri);
-    binding.postImage.setVisibility(View.VISIBLE);
-
-    binding.postBtn.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.follow_btn_bg));
-    binding.postBtn.setTextColor(getContext().getResources().getColor(R.color.white));
-    binding.postBtn.setEnabled(true);
-}
-            }
-        });
+                        binding.postBtn.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.follow_btn_bg));
+                        binding.postBtn.setTextColor(getContext().getResources().getColor(R.color.white));
+                        binding.postBtn.setEnabled(true);
+                    }
+                }
+            });
 
 }

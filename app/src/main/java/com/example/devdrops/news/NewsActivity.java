@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter.CategoryClickInterface {
 
-//    #072247
+    //    #072247
     private RecyclerView newsRV;
     private RecyclerView categoryRV;
     private ArrayList<Articles> articlesArrayList;
@@ -48,7 +48,6 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
         newsRVAdapter.notifyDataSetChanged();
 
 
-
     }
 
     private void getCategory() {
@@ -75,9 +74,9 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
     }
 
 //    https://newsapi.org/v2/top-headlines?country=in&category=" + category + "
- //   https://newsapi.org/v2/top-headlines?country=in&excludeDomains=stackoverflow.com&sortBy=publishedAt&language=en&apiKey=9238eae1cd5e4d36a80a7400fc59f5f0
+    //   https://newsapi.org/v2/top-headlines?country=in&excludeDomains=stackoverflow.com&sortBy=publishedAt&language=en&apiKey=9238eae1cd5e4d36a80a7400fc59f5f0
 
-    private void getNews(String category){
+    private void getNews(String category) {
 //https://newsapi.org/v2/everything?q=Android Development&apiKey=466da3ccf14d4e52b769df1687a074e1
         articlesArrayList.clear();
         String categoryUrl = "https://newsapi.org/v2/everything?q=" + category + "&excludeDomains=stackoverflow.com&sortBy=publishedAt&language=en&apiKey=9238eae1cd5e4d36a80a7400fc59f5f0";
@@ -91,26 +90,25 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
         RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
         Call<NewsModal> call;
 
-        if (category.equals("All")){
+        if (category.equals("All")) {
             call = retrofitApi.getAllNews(url);
-        }
-        else {
+        } else {
             call = retrofitApi.getNewsByCategory(categoryUrl);
         }
-        
+
         call.enqueue(new Callback<NewsModal>() {
             @Override
             public void onResponse(Call<NewsModal> call, Response<NewsModal> response) {
 
                 NewsModal newsModal = response.body();
                 ArrayList<Articles> articles = newsModal.getArticles();
-                for (int i = 0; i < articles.size(); i++){
+                for (int i = 0; i < articles.size(); i++) {
                     articlesArrayList.add
                             (new Articles(articles.get(i).getTitle(),
-                            articles.get(i).getDescription(),
-                            articles.get(i).getUrlToImage(),
-                            articles.get(i).getUrl(),
-                            articles.get(i).getContent()));
+                                    articles.get(i).getDescription(),
+                                    articles.get(i).getUrlToImage(),
+                                    articles.get(i).getUrl(),
+                                    articles.get(i).getContent()));
                 }
 
                 newsRVAdapter.notifyDataSetChanged();
@@ -125,6 +123,7 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
         });
 
     }
+
     @Override
     public void OnCategoryClick(int position) {
 

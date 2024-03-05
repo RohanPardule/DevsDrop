@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.AddQuestionActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Create Query"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/addquestion_postBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addquestion_postBtn" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/addquestion_postBtn"
+        android:layout_width="75dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/follow_active_btn"
+        android:enabled="false"
+        android:text="Post"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view14"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#DADADA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addquestion_postBtn" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/addquestion_profileImage"
+        android:layout_width="@dimen/_50mdp"
+        android:layout_height="@dimen/_50mdp"
+        android:layout_marginTop="8dp"
+        android:padding="4dp"
+        android:src="@drawable/profile"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/view14" />
+
+    <View
+        android:id="@+id/statusCircle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/gray_circle"
+        app:layout_constraintBottom_toBottomOf="@id/addquestion_profileImage"
+        app:layout_constraintEnd_toEndOf="@id/addquestion_profileImage"
+        app:layout_constraintStart_toStartOf="@id/addquestion_profileImage"
+        app:layout_constraintTop_toTopOf="@id/addquestion_profileImage" />
+
+    <TextView
+        android:id="@+id/addquestion_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_14font_mdp"
+        app:layout_constraintBottom_toTopOf="@+id/addquestion_profession"
+        app:layout_constraintStart_toEndOf="@+id/addquestion_profileImage"
+        app:layout_constraintTop_toTopOf="@+id/addquestion_profileImage"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/addquestion_profession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/addquestion_profileImage"
+        app:layout_constraintStart_toStartOf="@+id/addquestion_name"
+        app:layout_constraintTop_toBottomOf="@+id/addquestion_name" />
+
+    <EditText
+        android:id="@+id/myQuestion"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="What's on your mind?"
+        android:inputType="textPersonName"
+        android:textSize="15sp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/addquestion_profileImage"
+        app:layout_constraintTop_toBottomOf="@+id/addquestion_profileImage" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

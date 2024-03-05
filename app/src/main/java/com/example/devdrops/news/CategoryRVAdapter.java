@@ -55,11 +55,11 @@ public class CategoryRVAdapter extends RecyclerView.Adapter<CategoryRVAdapter.Vi
         return categoriesRVModal.size();
     }
 
-    public interface CategoryClickInterface{
+    public interface CategoryClickInterface {
         void OnCategoryClick(int position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView categoryTV;
         private ImageView categoryIV;
@@ -68,7 +68,8 @@ public class CategoryRVAdapter extends RecyclerView.Adapter<CategoryRVAdapter.Vi
             super(itemView);
 
             categoryTV = itemView.findViewById(R.id.idTVCategories);
-            categoryIV = itemView.findViewById(R.id.idIVCategories);;
+            categoryIV = itemView.findViewById(R.id.idIVCategories);
+            ;
         }
     }
 }

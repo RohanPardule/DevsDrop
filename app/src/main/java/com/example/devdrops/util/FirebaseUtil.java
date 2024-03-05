@@ -10,41 +10,40 @@ import java.text.SimpleDateFormat;
 
 public class FirebaseUtil {
 
-    public  static  String currentUserId()
-    {
+    public static String currentUserId() {
         return FirebaseAuth.getInstance().getUid();
     }
 
 
-    public static boolean isLoggedIn(){
-        if (currentUserId()!=null){
+    public static boolean isLoggedIn() {
+        if (currentUserId() != null) {
             return true;
         }
         return false;
     }
 
-    public  static DocumentReference currentUserDetails()
-    {
+    public static DocumentReference currentUserDetails() {
         return FirebaseFirestore.getInstance().collection("users").document(currentUserId());
     }
+//    public static DocumentReference currentUserDetailsForProfileUpdate() {
+//        return FirebaseFirestore.getInstance().collection("users").document(currentUserId());
+//    }
 
 
-    public static DocumentReference  PostUsername(String id){
+    public static DocumentReference PostUsername(String id) {
         return FirebaseFirestore.getInstance().collection("users").document(id);
     }
-
 
 
     // other user details
-    public  static DocumentReference getOtherUserDetails(String id)
-    {
+    public static DocumentReference getOtherUserDetails(String id) {
 
         return FirebaseFirestore.getInstance().collection("users").document(id);
 
     }
 
 
-//    public static CollectionReference allVetCollectionReference(){
+    //    public static CollectionReference allVetCollectionReference(){
 //        return  FirebaseFirestore.getInstance().collection("vet_list");
 //    }
 //    public static DocumentReference getChatRoomReference(String chatroomId)
@@ -67,8 +66,8 @@ public class FirebaseUtil {
 //        return  getChatRoomReference(chatroomId).collection("chats");
 //
 //    }
-    public static CollectionReference allUserCollectionReference(){
-        return  FirebaseFirestore.getInstance().collection("users");
+    public static CollectionReference allUserCollectionReference() {
+        return FirebaseFirestore.getInstance().collection("users");
     }
 //    public static CollectionReference allChatroomCollectionReference(){
 //        return  FirebaseFirestore.getInstance().collection("chatrooms");
@@ -85,22 +84,20 @@ public class FirebaseUtil {
 //    }
 
 
-
-    public static String timestampTOString(Timestamp timestamp)
-    {
+    public static String timestampTOString(Timestamp timestamp) {
         return new SimpleDateFormat("HH:MM").format(timestamp.toDate());
     }
 
 
-    public static void logout(){
+    public static void logout() {
         FirebaseAuth.getInstance().signOut();
     }
 
-    public  static DocumentReference currentUserDetailsForPosts()
-    {
+    public static DocumentReference currentUserDetailsForPosts() {
         return FirebaseFirestore.getInstance().collection("users").document(currentUserId());
     }
-    public static CollectionReference allPostCollectionReference(){
-        return  FirebaseFirestore.getInstance().collection("posts");
+
+    public static CollectionReference allPostCollectionReference() {
+        return FirebaseFirestore.getInstance().collection("posts");
     }
 }

@@ -40,7 +40,7 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
         Articles articles = articlesArrayList.get(position);
         holder.titleTV.setText(articles.getTitle());
         holder.subtitleTV.setText(articles.getDescription());
-        if ( articles.getUrl()!=null) {
+        if (articles.getUrl() != null) {
             if (!articles.getUrl().equals("null") && !articles.getUrl().isEmpty()) {
                 Picasso.get().load(articles.getUrl())
                         .error(R.drawable.placeholder).into(holder.newsIV);
@@ -50,8 +50,7 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
                 Picasso.get().load(R.drawable.placeholder)
                         .into(holder.newsIV);
             }
-        }
-        else {
+        } else {
             Picasso.get().load(R.drawable.placeholder)
                     .into(holder.newsIV);
         }
@@ -76,10 +75,11 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
         return articlesArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView titleTV, subtitleTV;
         private ImageView newsIV;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTV = itemView.findViewById(R.id.idTVNewsHeading);

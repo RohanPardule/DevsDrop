@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.PostFragment">
+    >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/dashboardRV_test"
-        android:layout_width="match_parent"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerFrameLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        shimmer:duration="1000">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+            <!-- Adding 5 rows of placeholders -->
+            <include layout="@layout/shimmer_post" />
+            <include layout="@layout/shimmer_post" />
+            <include layout="@layout/shimmer_post" />
+            <include layout="@layout/shimmer_post" />
 
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/shimmerFrameLayout"
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/dashboardRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-
-        />
-
-
-</FrameLayout>
+            android:visibility="gone" />
+<!--        <include android:visibility="gone"  android:id="@+id/lnr_data_unavailable" layout="@layout/data_unavailable"/>-->
+    </LinearLayout>
+</RelativeLayout>

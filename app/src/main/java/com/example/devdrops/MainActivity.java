@@ -14,6 +14,7 @@ import com.example.devdrops.fragments.DoubtFragment;
 import com.example.devdrops.fragments.NotificationActivity;
 import com.example.devdrops.fragments.PostFragment;
 import com.example.devdrops.fragments.ProfileFragment;
+import com.example.devdrops.fragments.QuestionsFragment;
 import com.example.devdrops.news.NewsActivity;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
@@ -23,25 +24,25 @@ public class MainActivity extends AppCompatActivity {
 
     SmoothBottomBar smoothBottomBar;
     ImageButton newsIcon;
-ImageButton notification;
+    ImageButton notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-newsIcon=findViewById(R.id.newsAppIcon);
-notification=findViewById(R.id.notification);
+        newsIcon = findViewById(R.id.newsAppIcon);
+        notification = findViewById(R.id.notification);
 
-notification.setOnClickListener(view -> {
-    Intent i=new Intent(MainActivity.this, NotificationActivity.class);
-    startActivity(i);
-    overridePendingTransition(R.anim.enter, R.anim.exit);
-});
-newsIcon.setOnClickListener(view -> {
-    Intent i=new Intent(MainActivity.this, NewsActivity.class);
-    startActivity(i);
-    overridePendingTransition(R.anim.enter, R.anim.exit);
-});
+        notification.setOnClickListener(view -> {
+            Intent i = new Intent(MainActivity.this, NotificationActivity.class);
+            startActivity(i);
+            overridePendingTransition(R.anim.enter, R.anim.exit);
+        });
+        newsIcon.setOnClickListener(view -> {
+            Intent i = new Intent(MainActivity.this, NewsActivity.class);
+            startActivity(i);
+            overridePendingTransition(R.anim.enter, R.anim.exit);
+        });
 
         smoothBottomBar = findViewById(R.id.bottomNav);
         loadFragment(new PostFragment());
@@ -50,14 +51,11 @@ newsIcon.setOnClickListener(view -> {
 
             if (i == 0) {
                 loadFragment(new PostFragment());
-            }
-            else if (i == 1) {
-                loadFragment(new DoubtFragment());
-            }
-            else if (i == 2) {
+            } else if (i == 1) {
+                loadFragment(new QuestionsFragment());
+            } else if (i == 2) {
                 loadFragment(new AddPostFragment());
-            }
-            else {
+            } else {
                 loadFragment(new ProfileFragment());
             }
 
@@ -66,7 +64,7 @@ newsIcon.setOnClickListener(view -> {
 
     }
 
-    private void loadFragment(Fragment fragment){
+    private void loadFragment(Fragment fragment) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

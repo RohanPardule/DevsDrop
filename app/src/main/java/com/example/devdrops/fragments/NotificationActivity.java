@@ -21,6 +21,7 @@ public class NotificationActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     NotificationAdapter adapter; // Create Object of the Adapter class
     DatabaseReference mbase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,7 @@ public class NotificationActivity extends AppCompatActivity {
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        Query query=mbase.orderByChild("notificationAt").limitToLast(50);
+        Query query = mbase.orderByChild("notificationAt").limitToLast(50);
         FirebaseRecyclerOptions<Notification> options
                 = new FirebaseRecyclerOptions.Builder<Notification>()
                 .setQuery(query, Notification.class)
@@ -46,6 +47,7 @@ public class NotificationActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -61,6 +63,7 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        adapter.startListening();
         adapter.notifyDataSetChanged();
     }
 }

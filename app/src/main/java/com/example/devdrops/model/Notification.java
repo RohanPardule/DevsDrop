@@ -2,13 +2,13 @@ package com.example.devdrops.model;
 
 public class Notification {
 
-private String notificationBy;
-private long notificationAt;
-private String type;
-private String postID;
-private String notificationID;
-private String postedBy;
-private boolean checkOpen;
+    private String notificationBy;
+    private long notificationAt;
+    private String type;
+    private String postID;
+    private String notificationID;
+    private String postedBy;
+    private boolean checkOpen;
 
     public String getNotificationBy() {
         return notificationBy;

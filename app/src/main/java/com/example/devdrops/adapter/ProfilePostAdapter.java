@@ -29,36 +29,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-// FirebaseRecyclerAdapter is a class provided by
-// FirebaseUI. it provides functions to bind, adapt and show
-// database contents in a Recycler View
+
 public class ProfilePostAdapter extends FirebaseRecyclerAdapter<
         DashBoardModel, ProfilePostAdapter.DashBoardModelsViewholder> {
 
     public ProfilePostAdapter(
-            @NonNull FirebaseRecyclerOptions<DashBoardModel> options)
-    {
+            @NonNull FirebaseRecyclerOptions<DashBoardModel> options) {
         super(options);
     }
 
-    // Function to bind the view in Card view(here
-    // "DashBoardModel.xml") iwth data in
-    // model class(here "DashBoardModel.class")
+
     @Override
     protected void
     onBindViewHolder(@NonNull DashBoardModelsViewholder holder,
-                     int position, @NonNull DashBoardModel model)
-    {
-
+                     int position, @NonNull DashBoardModel model) {
 
 
         Picasso.get()
                 .load(model.getPostImage())
                 .placeholder(R.drawable.placeholder)
                 .into(holder.post_image);
-
-
-
 
 
     }
@@ -68,29 +58,23 @@ public class ProfilePostAdapter extends FirebaseRecyclerAdapter<
     @Override
     public DashBoardModelsViewholder
     onCreateViewHolder(@NonNull ViewGroup parent,
-                       int viewType)
-    {
+                       int viewType) {
         View view
                 = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.profile_post_row, parent, false);
         return new ProfilePostAdapter.DashBoardModelsViewholder(view);
     }
 
-    // Sub Class to create references of the views in Crad
-    // view (here "DashBoardModel.xml")
     class DashBoardModelsViewholder
             extends RecyclerView.ViewHolder {
 
         ImageView post_image;
 
 
-
-
-        public DashBoardModelsViewholder(@NonNull View itemView)
-        {
+        public DashBoardModelsViewholder(@NonNull View itemView) {
             super(itemView);
 
-            post_image=itemView.findViewById(R.id.profile_postImage);
+            post_image = itemView.findViewById(R.id.profile_postImage);
 
         }
     }

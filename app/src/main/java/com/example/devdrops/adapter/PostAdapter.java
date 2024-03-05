@@ -1,15 +1,19 @@
 package com.example.devdrops.adapter;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devdrops.R;
+import com.example.devdrops.fragments.CommentActivity;
 import com.example.devdrops.model.DashBoardModel;
 import com.example.devdrops.model.Notification;
 import com.example.devdrops.model.UserModel;
@@ -28,30 +32,32 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-// FirebaseRecyclerAdapter is a class provided by
-// FirebaseUI. it provides functions to bind, adapt and show
-// database contents in a Recycler View
 public class PostAdapter extends FirebaseRecyclerAdapter<
         DashBoardModel, PostAdapter.DashBoardModelsViewholder> {
+    Context context;
 
     public PostAdapter(
-            @NonNull FirebaseRecyclerOptions<DashBoardModel> options)
-    {
+            @NonNull FirebaseRecyclerOptions<DashBoardModel> options,Context context) {
         super(options);
+     this.context=context;
     }
 
-    // Function to bind the view in Card view(here
-    // "DashBoardModel.xml") iwth data in
-    // model class(here "DashBoardModel.class")
+
     @Override
     protected void
     onBindViewHolder(@NonNull DashBoardModelsViewholder holder,
-                     int position, @NonNull DashBoardModel model)
-    {
+                     int position, @NonNull DashBoardModel model) {
 
         FirebaseUtil.PostUsername(model.getPostedBy()).get().addOnCompleteListener(task -> {
-            UserModel model1=task.getResult().toObject(UserModel.class);
+            UserModel model1 = task.getResult().toObject(UserModel.class);
             holder.username.setText(model1.getUsername().toString());
+if (model1.getProfile()!=null)
+{
+            Picasso.get()
+                    .load(model1.getProfile())
+                    .placeholder(R.drawable.placeholder)
+                    .into(holder.profileImage);
+}
         });
 
         long timestamp = model.getPostedAt();
@@ -60,17 +66,17 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
         Date date = new Date(timestamp);
 
         // Format the Date to a human-readable format
-        SimpleDateFormat sdf = new  SimpleDateFormat("d MMM h:mma", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM h:mma", Locale.ENGLISH);
         String formattedDate = sdf.format(date);
         holder.time.setText(formattedDate.toString());
 
-        holder.like.setText(model.getPostLike()+"");
+        holder.like.setText(model.getPostLike() + "");
 //        holder.comment.setText(model.getCommentCount()+"");
 
         String description = model.getPostDescription();
-        if (description.equals("")){
+        if (description.equals("")) {
             holder.description.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.description.setText(model.getPostDescription());
             holder.description.setVisibility(View.VISIBLE);
         }
@@ -81,66 +87,6 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
                 .into(holder.post_image);
 
 
-//        FirebaseDatabase.getInstance().getReference()
-//                .child("posts")
-//                .child(getRef(position).getKey())
-//                .child("likes")
-//                .child(FirebaseAuth.getInstance().getUid())
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        if (snapshot.exists()){
-//                            holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_heart_2, 0, 0, 0);
-//                        }else {
-//                            holder.like.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    FirebaseDatabase.getInstance().getReference()
-//                                            .child("posts")
-//                                            .child(getRef(position).getKey())
-//                                            .child("likes")
-//                                            .child(FirebaseAuth.getInstance().getUid())
-//                                            .setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                                @Override
-//                                                public void onSuccess(Void aVoid) {
-//                                                    FirebaseDatabase.getInstance().getReference()
-//                                                            .child("posts")
-//                                                            .child(getRef(position).getKey())
-//                                                            .child("postLike")
-//                                                            .setValue(model.getPostLike() + 1).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                                                @Override
-//                                                                public void onSuccess(Void aVoid) {
-//                                                                    holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_heart_2, 0, 0, 0);
-//
-//
-////        later to be implemented in sending notification
-////                                                                    Notification notification = new Notification();
-////                                                                    notification.setNotificationBy(FirebaseAuth.getInstance().getUid());
-////                                                                    notification.setNotificationAt(new Date().getTime());
-////                                                                    notification.setPostID(getRef(position).getKey());
-////                                                                    notification.setPostedBy(model.getPostedBy());
-////                                                                    notification.setType("like");
-////
-////                                                                    FirebaseDatabase.getInstance().getReference()
-////                                                                            .child("notification")
-////                                                                            .child(model.getPostedBy())
-////                                                                            .push()
-////                                                                            .setValue(notification);
-//                                                                }
-//                                                            });
-//                                                }
-//                                            });
-//
-//                                }
-//                            });
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
 
         String postId = getRef(position).getKey(); // Retrieve the key of the current post
 
@@ -189,7 +135,8 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
                                             .child(postId)
                                             .child("likes")
                                             .child(FirebaseAuth.getInstance().getUid())
-                                            .removeValue()     //can use delete too if it wont work
+                                            .removeValue()
+                                            //can use delete too if it wont work
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
@@ -206,11 +153,11 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
                                                             .setValue(model.getPostLike());
 
 
-                                         }
-                                           });
+                                                }
+                                            });
 
                                 } else {
-                                    // User has not liked, implement like logic here
+                                    // User has not liked, implemented like logic here
                                     FirebaseDatabase.getInstance().getReference()
                                             .child("posts")
                                             .child(postId)
@@ -232,7 +179,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
                                                             .child("postLike")
                                                             .setValue(model.getPostLike());
 
-                                                    // ... other logic (e.g., sending notification)
+                                                    //  ( sending notification)
 
                                                     Notification notification = new Notification();
                                                     notification.setNotificationBy(FirebaseAuth.getInstance().getUid());
@@ -258,65 +205,55 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
                         });
             }
         });
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CommentActivity.class);
+
+                    intent.putExtra("postId", model.getPostId());
+                    intent.putExtra("postedBy", model.getPostedBy());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+
+            }
+        });
 
 
 
 
-
-
-        // Add firstname from model class (here
-        // "DashBoardModel.class")to appropriate view in Card
-//        // view (here "DashBoardModel.xml")
-//        holder.firstname.setText(model.getFirstname());
-//
-//        // Add lastname from model class (here
-//        // "DashBoardModel.class")to appropriate view in Card
-//        // view (here "DashBoardModel.xml")
-//        holder.lastname.setText(model.getLastname());
-//
-//        // Add age from model class (here
-//        // "DashBoardModel.class")to appropriate view in Card
-//        // view (here "DashBoardModel.xml")
-//        holder.age.setText(model.getAge());
     }
 
-    // Function to tell the class about the Card view (here
-    // "DashBoardModel.xml")in
-    // which the data will be shown
+
     @NonNull
     @Override
     public DashBoardModelsViewholder
     onCreateViewHolder(@NonNull ViewGroup parent,
-                       int viewType)
-    {
+                       int viewType) {
         View view
                 = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.dashboard_row_layout, parent, false);
         return new PostAdapter.DashBoardModelsViewholder(view);
     }
 
-    // Sub Class to create references of the views in Crad
-    // view (here "DashBoardModel.xml")
+
     class DashBoardModelsViewholder
             extends RecyclerView.ViewHolder {
 
-        ImageView post_image,menu,comment;
-        TextView username,description,like,time;
+        ImageView post_image, menu, comment,profileImage;
+        TextView username, description, like, time;
 
 
-
-        public DashBoardModelsViewholder(@NonNull View itemView)
-        {
+        public DashBoardModelsViewholder(@NonNull View itemView) {
             super(itemView);
 
-            post_image=itemView.findViewById(R.id.dashBoard_postImage);
-            username=itemView.findViewById(R.id.dashBoard_userName);
-            description=itemView.findViewById(R.id.postDescription);
-            time=itemView.findViewById(R.id.time);
-            menu=itemView.findViewById(R.id.post_menu);
-
-            like=itemView.findViewById(R.id.like);
-            comment=itemView.findViewById(R.id.comment);
+            post_image = itemView.findViewById(R.id.dashBoard_postImage);
+            username = itemView.findViewById(R.id.dashBoard_userName);
+            description = itemView.findViewById(R.id.postDescription);
+            time = itemView.findViewById(R.id.time);
+            menu = itemView.findViewById(R.id.post_menu);
+            profileImage=itemView.findViewById(R.id.profileImage);
+            like = itemView.findViewById(R.id.like);
+            comment = itemView.findViewById(R.id.comment);
         }
     }
 }

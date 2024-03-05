@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <View
             android:id="@+id/view9"
@@ -23,7 +23,7 @@
             android:layout_width="150dp"
             android:layout_height="22dp"
             android:layout_marginStart="8dp"
-            android:background="#EFEFEF"
+            android:background="@color/gray"
             app:layout_constraintBottom_toTopOf="@+id/view21"
             app:layout_constraintStart_toEndOf="@+id/view9"
             app:layout_constraintTop_toTopOf="@+id/view9"
@@ -34,7 +34,7 @@
             android:layout_width="100dp"
             android:layout_height="20dp"
             android:layout_marginTop="4dp"
-            android:background="#EFEFEF"
+            android:background="@color/gray"
             app:layout_constraintBottom_toBottomOf="@+id/view9"
             app:layout_constraintStart_toStartOf="@+id/view20"
             app:layout_constraintTop_toBottomOf="@+id/view20" />
@@ -45,7 +45,7 @@
             android:layout_height="180dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/follow_active_btn"
-            android:backgroundTint="#EFEFEF"
+            android:backgroundTint="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/view9"
             app:layout_constraintTop_toBottomOf="@+id/view9" />
@@ -55,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_marginTop="8dp"
-            android:background="#EFEFEF"
+            android:background="@color/gray"
             app:layout_constraintEnd_toEndOf="@+id/view22"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view22" />

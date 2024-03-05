@@ -20,29 +20,22 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
 
-      new Handler().postDelayed(new Runnable()
-      {
-        @Override
-        public void run()
-        {
-          if (FirebaseUtil.isLoggedIn()) {
-              Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-              intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-              startActivity(intent);
-          } else {
-            Intent intent = new Intent(SplashScreenActivity.this, SignInActivity.class);
-              intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-              startActivity(intent);
-          }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (FirebaseUtil.isLoggedIn()) {
+                    Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(SplashScreenActivity.this, SignInActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
 
-          overridePendingTransition(R.anim.enter, R.anim.exit);
-        }
-      }, 2500);
-
-
-
-
-
+                overridePendingTransition(R.anim.enter, R.anim.exit);
+            }
+        }, 2500);
 
 
     }

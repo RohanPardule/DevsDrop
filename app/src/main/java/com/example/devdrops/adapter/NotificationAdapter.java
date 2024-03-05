@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devdrops.R;
+import com.example.devdrops.databinding.NotificationRowLayoutBinding;
 import com.example.devdrops.model.DashBoardModel;
 import com.example.devdrops.model.Notification;
 import com.example.devdrops.model.UserModel;
@@ -42,16 +43,14 @@ public class NotificationAdapter extends FirebaseRecyclerAdapter<
         Notification, NotificationAdapter.NotificationViewholder> {
 
     public NotificationAdapter(
-            @NonNull FirebaseRecyclerOptions<Notification> options)
-    {
+            @NonNull FirebaseRecyclerOptions<Notification> options) {
         super(options);
     }
 
     @Override
     protected void
     onBindViewHolder(@NonNull NotificationViewholder holder,
-                     int position, @NonNull Notification notification)
-    {
+                     int position, @NonNull Notification notification) {
 
 
         String type = notification.getType();
@@ -64,24 +63,23 @@ public class NotificationAdapter extends FirebaseRecyclerAdapter<
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         UserModel user = task.getResult().toObject(UserModel.class);
-//                        Picasso.get()
-//                                .load(user.getProfile())
-//                                .placeholder(R.drawable.placeholder)
-//                                .into(holder.binding.notificationProfile);
 
-                        if (type.equals("like")){
-                            holder.notification.setText(Html.fromHtml("<b>"+user.getUsername() +"</b>"+ " liked your post"));
-                        }else if (type.equals("comment")){
-                            holder.notification.setText(Html.fromHtml("<b>"+user.getUsername() +"</b>"+ " Commented on your post"));
-                        }else {
-                            holder.notification.setText(Html.fromHtml("<b>" +user.getUsername()+"</b>" + " start following you."));
+                            Picasso.get()
+                                    .load(user.getProfile())
+                                    .placeholder(R.drawable.placeholder)
+                                    .error(R.drawable.placeholder)
+                                    .into(holder.binding.notificationProfile);
+
+
+                        if (type.equals("like")) {
+                            holder.notification.setText(Html.fromHtml("<b>" + user.getUsername() + "</b>" + " liked your post"));
+                        } else if (type.equals("comment")) {
+                            holder.notification.setText(Html.fromHtml("<b>" + user.getUsername() + "</b>" + " Commented on your post"));
+                        } else {
+                            holder.notification.setText(Html.fromHtml("<b>" + user.getUsername() + "</b>" + " start following you."));
                         }
                     }
                 });
-
-
-
-
 
 
     }
@@ -91,8 +89,7 @@ public class NotificationAdapter extends FirebaseRecyclerAdapter<
     @Override
     public NotificationViewholder
     onCreateViewHolder(@NonNull ViewGroup parent,
-                       int viewType)
-    {
+                       int viewType) {
         View view
                 = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.notification_row_layout, parent, false);
@@ -102,16 +99,14 @@ public class NotificationAdapter extends FirebaseRecyclerAdapter<
 
     class NotificationViewholder
             extends RecyclerView.ViewHolder {
-   TextView notification,time;
+        TextView notification, time;
+        NotificationRowLayoutBinding binding;
 
-
-
-
-        public NotificationViewholder(@NonNull View itemView)
-        {
+        public NotificationViewholder(@NonNull View itemView) {
             super(itemView);
-            notification=itemView.findViewById(R.id.notificationTV);
-            time=itemView.findViewById(R.id.timeTV);
+            notification = itemView.findViewById(R.id.notificationTV);
+            time = itemView.findViewById(R.id.timeTV);
+            binding = NotificationRowLayoutBinding.bind(itemView);
 
         }
     }

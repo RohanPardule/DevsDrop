@@ -17,6 +17,15 @@
         android:theme="@style/Theme.DevDrops"
         tools:targetApi="31">
         <activity
+            android:name=".fragments.AnswersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fragments.AddQuestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fragments.CommentActivity"
+            android:exported="false" />
+        <activity
             android:name=".fragments.NotificationActivity"
             android:exported="false" />
         <activity
