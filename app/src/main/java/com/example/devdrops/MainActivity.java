@@ -55,7 +55,11 @@ public class MainActivity extends AppCompatActivity {
                 loadFragment(new QuestionsFragment());
             } else if (i == 2) {
                 loadFragment(new AddPostFragment());
-            } else {
+            }
+//            else if (i == 3) {
+//              startActivity(new Intent(MainActivity.this, NewsActivity.class));
+//            }
+          else {
                 loadFragment(new ProfileFragment());
             }
 

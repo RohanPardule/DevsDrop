@@ -25,14 +25,13 @@ public class FirebaseUtil {
     public static DocumentReference currentUserDetails() {
         return FirebaseFirestore.getInstance().collection("users").document(currentUserId());
     }
-//    public static DocumentReference currentUserDetailsForProfileUpdate() {
-//        return FirebaseFirestore.getInstance().collection("users").document(currentUserId());
-//    }
+
 
 
     public static DocumentReference PostUsername(String id) {
         return FirebaseFirestore.getInstance().collection("users").document(id);
     }
+
 
 
     // other user details

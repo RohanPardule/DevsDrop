@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/layout">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/Secondary_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Answers"
+        app:titleTextColor="@color/white" />
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -16,7 +26,7 @@
         android:padding="4dp"
         android:src="@drawable/profile"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolBar"  />
 
     <View
         android:id="@+id/statusCircle"
@@ -37,7 +47,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/answer_profileImage"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolBar">
 
         <TextView
             android:id="@+id/answer_username"
@@ -80,13 +90,13 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/follow_active_btn"
-        app:layout_constraintBottom_toBottomOf="@+id/commentET"
+        app:layout_constraintBottom_toBottomOf="@+id/answerET"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/commentET" />
+        app:layout_constraintTop_toTopOf="@+id/answerET" />
     <EditText
-        android:id="@+id/commentET"
+        android:id="@+id/answerET"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -99,17 +109,17 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/commnetPostBtn"
+        app:layout_constraintEnd_toStartOf="@+id/answerPostBtn"
         app:layout_constraintStart_toStartOf="@+id/view19" />
 
     <ImageView
-        android:id="@+id/commnetPostBtn"
+        android:id="@+id/answerPostBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/commentET"
+        app:layout_constraintBottom_toBottomOf="@+id/answerET"
         app:layout_constraintEnd_toEndOf="@+id/view19"
-        app:layout_constraintTop_toTopOf="@+id/commentET"
+        app:layout_constraintTop_toTopOf="@+id/answerET"
         app:srcCompat="@drawable/ic_send" />
 
 

@@ -7,20 +7,18 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".fragments.NotificationActivity">
-
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Notifications"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/Secondary_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Notifications"
+        app:titleTextColor="@color/white" />
+
+
 
     <View
         android:id="@+id/view27"

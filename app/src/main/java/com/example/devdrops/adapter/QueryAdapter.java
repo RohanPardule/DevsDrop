@@ -78,6 +78,8 @@ public class QueryAdapter extends FirebaseRecyclerAdapter<
 
             intent.putExtra("questionId", questionModel.getQuestionID());
             intent.putExtra("questionPostedBy", questionModel.getPostedby());
+            intent.putExtra("question",questionModel.getQuestion());
+            intent.putExtra("time",questionModel.getPostedAt());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });

@@ -156,6 +156,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 question.setPostedby(FirebaseAuth.getInstance().getUid());
                 question.setQuestion(query);
                 question.setPostedAt(new Date().getTime());
+                question.setAnswercount(0);
 
 
                 database.getReference().child("queries")

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devdrops.R;
 import com.example.devdrops.fragments.CommentActivity;
+import com.example.devdrops.fragments.OtherUserProfileActivity;
 import com.example.devdrops.model.DashBoardModel;
 import com.example.devdrops.model.Notification;
 import com.example.devdrops.model.UserModel;
@@ -215,6 +216,16 @@ if (model1.getProfile()!=null)
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
 
+            }
+        });
+
+        holder.profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, OtherUserProfileActivity.class);
+                intent.putExtra("otherUser", model.getPostedBy());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
 

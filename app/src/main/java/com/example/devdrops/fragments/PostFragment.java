@@ -56,8 +56,7 @@ public class PostFragment extends Fragment {
 
 // Set the LayoutManager to the RecyclerView
         recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setLayoutManager(
-//                new LinearLayoutManager(getContext()));
+
 
 
         // query in the database to fetch appropriate data

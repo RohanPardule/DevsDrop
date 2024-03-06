@@ -15,6 +15,11 @@
         android:id="@+id/add_post"
         android:title="Post"
         android:icon="@drawable/ic_add_post"/>
+<!--    <item-->
+<!--        android:id="@+id/news"-->
+<!--        android:title="News"-->
+<!--        android:icon="@drawable/news_icon"/>-->
+
 
     <item
         android:id="@+id/profile"

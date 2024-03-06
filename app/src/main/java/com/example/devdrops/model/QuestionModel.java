@@ -5,6 +5,15 @@ public class QuestionModel {
     String  postedby;
     long postedAt;
     String  questionID;
+    int answercount;
+
+    public int getAnswercount() {
+        return answercount;
+    }
+
+    public void setAnswercount(int answercount) {
+        this.answercount = answercount;
+    }
 
     public String getQuestion() {
         return question;

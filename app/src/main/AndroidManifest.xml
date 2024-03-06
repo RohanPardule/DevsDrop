@@ -17,6 +17,9 @@
         android:theme="@style/Theme.DevDrops"
         tools:targetApi="31">
         <activity
+            android:name=".fragments.OtherUserProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".fragments.AnswersActivity"
             android:exported="false" />
         <activity

@@ -75,6 +75,9 @@ public class NotificationAdapter extends FirebaseRecyclerAdapter<
                             holder.notification.setText(Html.fromHtml("<b>" + user.getUsername() + "</b>" + " liked your post"));
                         } else if (type.equals("comment")) {
                             holder.notification.setText(Html.fromHtml("<b>" + user.getUsername() + "</b>" + " Commented on your post"));
+                        }
+                        else if (type.equals("answer")) {
+                            holder.notification.setText(Html.fromHtml("<b>" + user.getUsername() + "</b>" + " Answered on your query"));
                         } else {
                             holder.notification.setText(Html.fromHtml("<b>" + user.getUsername() + "</b>" + " start following you."));
                         }

@@ -6,12 +6,22 @@ public class UserModel {
     String userId;
     String profession;
     String profile;
+    int followersCount;
 
-    public UserModel(String email, String username, String userId, String profession) {
+    public UserModel(String email, String username, String userId, String profession, int followersCount) {
         this.email = email;
         this.username = username;
         this.userId = userId;
         this.profession = profession;
+        this.followersCount=followersCount;
+    }
+
+    public int getFollowersCount() {
+        return followersCount;
+    }
+
+    public void setFollowersCount(int followersCount) {
+        this.followersCount = followersCount;
     }
 
     public UserModel() {
