@@ -47,7 +47,7 @@ public class PostFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_post, container, false);
         recyclerView = rootView.findViewById(R.id.dashboardRV);
         shimmerFrameLayout = rootView.findViewById(R.id.shimmerFrameLayout);
-//        lnr_data_unavailable = rootView.findViewById(R.id.lnr_data_unavailable);
+
         mbase
                 = FirebaseDatabase.getInstance().getReference().child("posts");
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
