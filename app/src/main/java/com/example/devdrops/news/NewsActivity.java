@@ -1,6 +1,8 @@
 package com.example.devdrops.news;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.devdrops.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,10 +25,13 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
     //    #072247
     private RecyclerView newsRV;
     private RecyclerView categoryRV;
-    private ArrayList<Articles> articlesArrayList;
+    private List<Articles> articlesArrayList;
     private ArrayList<CategoriesRVModal> categoriesRVModalArrayList;
     private CategoryRVAdapter categoryRVAdapter;
     private NewsRVAdapter newsRVAdapter;
+    RetrofitInstance retrofitInstance;
+    ImageView backbtn;
+
 
 
     @Override
@@ -36,7 +42,9 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
 //        frameLayout = findViewById(R.id.shimmer_container);
         newsRV = findViewById(R.id.idRVNews);
         categoryRV = findViewById(R.id.idRVCategories);
+        backbtn=findViewById(R.id.backbtn);
         articlesArrayList = new ArrayList<>();
+        retrofitInstance=new RetrofitInstance();
         categoriesRVModalArrayList = new ArrayList<>();
         newsRVAdapter = new NewsRVAdapter(articlesArrayList, this);
         categoryRVAdapter = new CategoryRVAdapter(categoriesRVModalArrayList, this, this::OnCategoryClick);
@@ -47,6 +55,9 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
         getNews("All");
         newsRVAdapter.notifyDataSetChanged();
 
+        backbtn.setOnClickListener(view -> {
+            onBackPressed();
+        });
 
     }
 
@@ -78,22 +89,16 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
 
     private void getNews(String category) {
 //https://newsapi.org/v2/everything?q=Android Development&apiKey=466da3ccf14d4e52b769df1687a074e1
-        articlesArrayList.clear();
+
         String categoryUrl = "https://newsapi.org/v2/everything?q=" + category + "&excludeDomains=stackoverflow.com&sortBy=publishedAt&language=en&apiKey=9238eae1cd5e4d36a80a7400fc59f5f0";
         String url = "https://newsapi.org/v2/top-headlines?country=in&category=Technology&excludeDomains=stackoverflow.com&sortBy=publishedAt&language=en&apiKey=9238eae1cd5e4d36a80a7400fc59f5f0";
-        String BASE_URL = "https://newsapi.org/";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
         Call<NewsModal> call;
 
         if (category.equals("All")) {
-            call = retrofitApi.getAllNews(url);
+            call = retrofitInstance.getService().getAllNews(url);
         } else {
-            call = retrofitApi.getNewsByCategory(categoryUrl);
+            call = retrofitInstance.getService().getNewsByCategory(categoryUrl);
         }
 
         call.enqueue(new Callback<NewsModal>() {
@@ -101,17 +106,17 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
             public void onResponse(Call<NewsModal> call, Response<NewsModal> response) {
 
                 NewsModal newsModal = response.body();
-                ArrayList<Articles> articles = newsModal.getArticles();
-                for (int i = 0; i < articles.size(); i++) {
-                    articlesArrayList.add
-                            (new Articles(articles.get(i).getTitle(),
-                                    articles.get(i).getDescription(),
-                                    articles.get(i).getUrlToImage(),
-                                    articles.get(i).getUrl(),
-                                    articles.get(i).getContent()));
+                Log.d("NewsModel",newsModal.getArticles().toString());
+                if (newsModal != null && newsModal.getArticles() != null) {
+                    articlesArrayList.clear();
+                    articlesArrayList.addAll(newsModal.getArticles());
+                    newsRVAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(NewsActivity.this, "No articles found.", Toast.LENGTH_SHORT).show();
                 }
+//
 
-                newsRVAdapter.notifyDataSetChanged();
+
             }
 
             @Override

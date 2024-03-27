@@ -7,6 +7,7 @@ public class UserModel {
     String profession;
     String profile;
     int followersCount;
+    int followingCount;
 
     public UserModel(String email, String username, String userId, String profession, int followersCount) {
         this.email = email;
@@ -14,6 +15,14 @@ public class UserModel {
         this.userId = userId;
         this.profession = profession;
         this.followersCount=followersCount;
+    }
+
+    public int getFollowingCount() {
+        return followingCount;
+    }
+
+    public void setFollowingCount(int followingCount) {
+        this.followingCount = followingCount;
     }
 
     public int getFollowersCount() {

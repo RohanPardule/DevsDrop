@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AddQuestionActivity">
+    tools:context=".fragments.AddQuestionActivity"
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/textView2"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Create Query"
-        android:textColor="@color/black"
+        android:textColor="@color/midnight_blue"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/addquestion_postBtn"
         app:layout_constraintStart_toStartOf="parent"

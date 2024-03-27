@@ -52,6 +52,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
         FirebaseUtil.PostUsername(model.getPostedBy()).get().addOnCompleteListener(task -> {
             UserModel model1 = task.getResult().toObject(UserModel.class);
             holder.username.setText(model1.getUsername().toString());
+
 if (model1.getProfile()!=null)
 {
             Picasso.get()

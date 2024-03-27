@@ -41,11 +41,11 @@ public class NewsDetailActivity extends AppCompatActivity {
         titleTV.setText(title);
         subDescTV.setText(description);
         contentTV.setText(content);
-        Picasso.get().load(url).into(newsIV);
+        Picasso.get().load(imageUrl).into(newsIV);
 
         readNewsBtn.setOnClickListener((View view) -> {
             Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(imageUrl));
+            i.setData(Uri.parse(url));
             startActivity(i);
         });
 

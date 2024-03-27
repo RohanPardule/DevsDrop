@@ -64,7 +64,7 @@ public class ProfileFragment extends Fragment {
     RecyclerView recyclerView;
     ProfilePostAdapter adapter; // Create Object of the Adapter class
 
-    TextView profile_username,followcount;
+    TextView profile_username,followcount,following;
     EditText profile_Proffesion;
     ImageView profile_imageView;
     Button update_profile;
@@ -95,6 +95,7 @@ public class ProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         recyclerView = rootView.findViewById(R.id.profileRv);
         followcount=rootView.findViewById(R.id.followcount);
+        following=rootView.findViewById(R.id.followingcount);
         profile_username = rootView.findViewById(R.id.profile_username);
         profile_Proffesion = rootView.findViewById(R.id.profile_Proffesion);
         profile_imageView=rootView.findViewById(R.id.profile_imageView);
@@ -179,6 +180,13 @@ public class ProfileFragment extends Fragment {
                         .placeholder(R.drawable.placeholder)
                         .into(profile_imageView);
                followcount.setText(String.valueOf(userModel.getFollowersCount()));
+               try {
+                   following.setText(String.valueOf(userModel.getFollowingCount()));
+               }
+               catch (Exception e){
+                   following.setText(0);
+               }
+
             }
         });
 

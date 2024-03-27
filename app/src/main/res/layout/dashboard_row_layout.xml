@@ -14,7 +14,7 @@
         android:layout_height="@dimen/_35sdp"
         android:layout_marginTop="@dimen/_8sdp"
 
-        android:src="@drawable/profile"
+        android:src="@drawable/placeholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginTop="@dimen/_4sdp"
-        android:text="Alicia Addams"
+
+
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -41,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_3sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:text="Traveler, life Lover"
+
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="@+id/dashBoard_userName"
         app:layout_constraintTop_toBottomOf="@+id/dashBoard_userName" />

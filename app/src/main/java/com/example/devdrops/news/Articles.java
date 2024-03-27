@@ -16,6 +16,9 @@ public class Articles {
         this.content = content;
     }
 
+    public Articles() {
+    }
+
     public String getTitle() {
         return title;
     }
@@ -54,5 +57,16 @@ public class Articles {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "Articles{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", url='" + url + '\'' +
+                ", urlToImage='" + urlToImage + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

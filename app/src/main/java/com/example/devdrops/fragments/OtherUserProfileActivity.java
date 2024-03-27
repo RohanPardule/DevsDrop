@@ -23,7 +23,9 @@ import com.squareup.picasso.Picasso;
 public class OtherUserProfileActivity extends AppCompatActivity {
     String otherUserId;
     ActivityOtherUserProfileBinding binding;
-    DocumentReference otherUser;
+    DocumentReference otherUser,currentUser;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,10 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         otherUserId=i.getStringExtra("otherUser");
 
      otherUser = FirebaseUtil.getOtherUserDetails(otherUserId);
+     currentUser=FirebaseUtil.currentUserDetails();
+
+
+
 
         otherUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -55,6 +61,9 @@ public class OtherUserProfileActivity extends AppCompatActivity {
             if (binding.followBtn.getText().toString().equals("Follow +")) {
                 UserModel userModel = new UserModel();
                 userModel.setUserId(FirebaseUtil.currentUserId());
+                UserModel currentUsermodel=new UserModel();
+                currentUsermodel.setUserId(FirebaseUtil.currentUserId());
+
                 otherUser.collection("followers").document(FirebaseUtil.currentUserId()).set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -71,7 +80,22 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
                     }
                 });
+currentUser.collection("following").document(otherUserId).set(currentUsermodel).addOnCompleteListener(new OnCompleteListener<Void>() {
+    @Override
+    public void onComplete(@NonNull Task<Void> task) {
+        currentUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                UserModel model=task.getResult().toObject(UserModel.class);
 
+                    int count = model.getFollowingCount();
+
+                currentUser.update("followingCount",count+1);
+            }
+        });
+
+    }
+});
             }
             else {
                 otherUser.collection("followers").document(FirebaseUtil.currentUserId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -85,6 +109,22 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                                 int  count=model.getFollowersCount();
                                 binding.followBtn.setText("Follow +");
                                 otherUser.update("followersCount",count-1);
+                            }
+                        });
+
+                    }
+                });
+                currentUser.collection("following").document(otherUserId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        currentUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                UserModel model=task.getResult().toObject(UserModel.class);
+
+                                int count = model.getFollowingCount();
+
+                                currentUser.update("followingCount",count-1);
                             }
                         });
 

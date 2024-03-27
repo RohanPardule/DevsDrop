@@ -16,13 +16,14 @@ import com.example.devdrops.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder> {
 
-    private ArrayList<Articles> articlesArrayList;
+    private List<Articles> articlesArrayList;
     private Context context;
 
-    public NewsRVAdapter(ArrayList<Articles> articlesArrayList, Context context) {
+    public NewsRVAdapter(List<Articles> articlesArrayList, Context context) {
         this.articlesArrayList = articlesArrayList;
         this.context = context;
     }
@@ -40,9 +41,9 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
         Articles articles = articlesArrayList.get(position);
         holder.titleTV.setText(articles.getTitle());
         holder.subtitleTV.setText(articles.getDescription());
-        if (articles.getUrl() != null) {
-            if (!articles.getUrl().equals("null") && !articles.getUrl().isEmpty()) {
-                Picasso.get().load(articles.getUrl())
+        if (articles.getUrlToImage() != null) {
+            if (!articles.getUrlToImage().equals("null") && !articles.getUrlToImage().isEmpty()) {
+                Picasso.get().load(articles.getUrlToImage())
                         .error(R.drawable.placeholder).into(holder.newsIV);
 
             } else {
