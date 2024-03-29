@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".fragments.NotificationActivity">
@@ -15,21 +15,40 @@
         android:background="@color/Secondary_blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Notifications"
-        app:titleTextColor="@color/white" />
+
+        app:titleTextColor="@color/white" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/backbtn"
+            android:src="@drawable/backbtn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_marginLeft="@dimen/_25sdp"
+
+            android:padding="4dp"
+            android:text="    Notification"
+            android:textSize="20sp"
+
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
 
 
 
-    <View
-        android:id="@+id/view27"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+<!--    <View-->
+<!--        android:id="@+id/view27"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:background="@android:color/darker_gray"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView15" />-->
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notificationRV"

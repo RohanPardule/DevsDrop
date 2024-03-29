@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".fragments.AddPostFragment">
+
+
 
     <TextView
         android:id="@+id/textView2"
@@ -49,7 +52,7 @@
         android:layout_height="@dimen/_50mdp"
         android:layout_marginTop="8dp"
         android:padding="4dp"
-        android:src="@drawable/profile"
+        android:src="@drawable/placeholder"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/view14" />
 
@@ -68,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="TextView"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="@dimen/_14font_mdp"
         app:layout_constraintBottom_toTopOf="@+id/profession"
@@ -80,7 +83,7 @@
         android:id="@+id/profession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/profileImage"
         app:layout_constraintStart_toStartOf="@+id/name"
         app:layout_constraintTop_toBottomOf="@+id/name" />

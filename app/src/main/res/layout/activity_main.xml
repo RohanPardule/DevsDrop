@@ -14,7 +14,7 @@
         android:id="@+id/toolBar"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:background="@color/Secondary_blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

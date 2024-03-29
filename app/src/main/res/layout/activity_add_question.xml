@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AddQuestionActivity"
     android:background="@drawable/background">
+    <ImageView
+        android:id="@+id/backbtn_add_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/backbtn_blue"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+
 
     <TextView
         android:id="@+id/textView2"
@@ -16,7 +27,7 @@
         android:textColor="@color/midnight_blue"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/addquestion_postBtn"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/backbtn_add_question"
         app:layout_constraintTop_toTopOf="@+id/addquestion_postBtn" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -50,7 +61,7 @@
         android:layout_marginTop="8dp"
         android:padding="4dp"
         android:src="@drawable/profile"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="@+id/backbtn"
         app:layout_constraintTop_toBottomOf="@+id/view14" />
 
     <View

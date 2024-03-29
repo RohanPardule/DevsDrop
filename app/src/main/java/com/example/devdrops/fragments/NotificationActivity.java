@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.example.devdrops.R;
 import com.example.devdrops.adapter.NotificationAdapter;
@@ -21,6 +22,7 @@ public class NotificationActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     NotificationAdapter adapter; // Create Object of the Adapter class
     DatabaseReference mbase;
+    ImageView backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,11 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
         recyclerView = findViewById(R.id.notificationRV);
+        backBtn=findViewById(R.id.backbtn);
+
+        backBtn.setOnClickListener(view -> {
+            onBackPressed();
+        });
         mbase = FirebaseDatabase.getInstance().getReference().
                 child("notification").child(FirebaseAuth.getInstance().getUid());
 

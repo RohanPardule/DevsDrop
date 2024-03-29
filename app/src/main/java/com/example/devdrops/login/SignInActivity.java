@@ -30,6 +30,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
@@ -91,12 +94,9 @@ public class SignInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success
-                            Toast.makeText(getApplicationContext(), "Sign in successful.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.enter, R.anim.exit);
-                            finish();
+
+
+                    checkUserIsDeleted();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(SignInActivity.this, "Sign in failed. " + task.getException().getMessage(),
@@ -142,7 +142,7 @@ public class SignInActivity extends AppCompatActivity {
 //                    map.put("name",user.getDisplayName());
 //                    map.put("profile",user.getPhotoUrl().toString());
                     UserModel userModel = new UserModel(user.getEmail(), user.getDisplayName(),
-                            user.getUid(), "Na",0);
+                            user.getUid(), "Na",user.getPhotoUrl().toString(),0,0,false);
 
                     FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -163,6 +163,31 @@ public class SignInActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+
+
+
+    private void checkUserIsDeleted(){
+        DocumentReference currentUser = FirebaseUtil.currentUserDetails();
+        currentUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                UserModel userModel = task.getResult().toObject(UserModel.class);
+
+            if(userModel.getDeleted()){
+                Toast.makeText(SignInActivity.this, "Your Account has been Blocked!!!", Toast.LENGTH_SHORT).show();
+                }
+            else {
+                Toast.makeText(getApplicationContext(), "Sign in successful.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.enter, R.anim.exit);
+                finish();
+            }
+
             }
         });
     }

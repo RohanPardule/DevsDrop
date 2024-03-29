@@ -1,124 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="fragments.ProfileFragment"
+    android:orientation="vertical"
     android:background="@drawable/background"
    >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_margin="20dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
 
-                android:hint="0"
-                android:gravity="center"
-                android:id="@+id/followcount"
-                android:inputType="text"
-                android:textSize="20sp"
-
-                android:elevation="5dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:hint=" Followers"
-
-                android:inputType="text"
-                android:enabled="false"
-
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:hint="0"
-                android:gravity="center"
-                android:id="@+id/followingcount"
-                android:inputType="text"
-                android:textSize="20sp"
-                android:elevation="5dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:hint=" Following"
-                android:inputType="text"
-                android:enabled="false"
-
-                />
-
-        </LinearLayout>
-
-    <!-- TODO: Update blank fragment layout -->
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:background="@drawable/circular_background"
-        android:backgroundTint="@color/gray"
-        android:src="@drawable/baseline_person_24"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/profile_imageView"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-
-        android:hint="Username"
-        android:gravity="center"
-        android:id="@+id/profile_username"
-        android:inputType="text"
-
-        android:elevation="5dp"
-        />
-    <EditText
+        >
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:gravity="center_horizontal"
-        android:hint="Proffesion"
-
-        android:id="@+id/profile_Proffesion"
-        android:inputType="text"
-
-        android:enabled="true"
-
-        />
-
-    <TextView
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+       >
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
-        android:layout_margin="@dimen/_10sdp"
-        android:id="@+id/logout_btn"/>
+        android:orientation="vertical"
+       android:layout_marginStart="@dimen/_20sdp"
 
-        <Button
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/circular_background"
+            android:backgroundTint="@color/gray"
+            android:src="@drawable/baseline_person_24"
+            android:scaleType="centerCrop"
+          android:padding="@dimen/_2sdp"
+
+            android:id="@+id/profile_imageView"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/midnight_blue"
+            android:id="@+id/profile_username"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Proffesion"
+            android:textSize="15sp"
+            android:textColor="@color/midnight_blue"
+            android:id="@+id/profile_Proffesion"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:inputType="text"
+            android:enabled="true"
+
+            />
+
+
+
+    </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="UPDATE PROFILE"
-            android:id="@+id/profile_update_btn"/>
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
 
-<androidx.recyclerview.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/profileRv"
-    />
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/midnight_blue"
+                    android:text="0"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:id="@+id/no_of_posts"
+                    android:inputType="text"
+                    android:textSize="20sp"
+                    android:elevation="5dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text=" Posts"
+                    android:textColor="@color/midnight_blue"
+                    android:inputType="text"
+                    android:enabled="false"
+
+                    />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/midnight_blue"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:id="@+id/followcount"
+                    android:inputType="text"
+                    android:textSize="20sp"
+                    android:elevation="5dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text=" Followers"
+                    android:textColor="@color/midnight_blue"
+                    android:inputType="text"
+                    android:enabled="false"
+
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+               android:layout_marginLeft="@dimen/_20sdp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:gravity="center"
+                    android:id="@+id/followingcount"
+                    android:inputType="text"
+                    android:textStyle="bold"
+                    android:textColor="@color/midnight_blue"
+                    android:textSize="20sp"
+                    android:elevation="5dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/midnight_blue"
+                    android:text=" Following"
+                    android:inputType="text"
+                    android:enabled="false"
+                    />
+
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
     </LinearLayout>
-</ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/round_corner_button"
+                android:text="Edit Profile"
+                android:textColor="@color/midnight_blue"/>
+            <TextView
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="wrap_content"
+                android:text="Share Profile"
+                android:padding="@dimen/_5sdp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/round_corner_button"
+               android:layout_marginLeft="@dimen/_5sdp"
+                android:textColor="@color/midnight_blue"/>
+        </LinearLayout>
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/round_corner_top"
+         >
+          <androidx.recyclerview.widget.RecyclerView
+              android:padding="10dp"
+              android:id="@+id/profileRv"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+
+              />
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:id="@+id/no_post_yet"
+              android:background="@drawable/round_corner_top"
+              android:visibility="gone"
+              android:text="No post yet"
+              android:textSize="20sp"
+              android:gravity="center"/>
+
+
+
+
+
+
+      </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+

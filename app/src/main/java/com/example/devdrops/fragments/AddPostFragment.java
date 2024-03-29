@@ -40,17 +40,23 @@ import com.example.devdrops.R;
 import com.example.devdrops.databinding.FragmentAddPostBinding;
 import com.example.devdrops.model.DashBoardModel;
 import com.example.devdrops.model.UserModel;
+import com.example.devdrops.util.FirebaseUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
@@ -62,8 +68,7 @@ public class AddPostFragment extends Fragment {
     FirebaseDatabase database;
     FirebaseStorage storage;
     ProgressDialog dialog;
-    private int REQUEST_PICK_IMAGE;
-    private int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE;
+
 
 
     public AddPostFragment() {
@@ -85,8 +90,7 @@ public class AddPostFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentAddPostBinding.inflate(inflater, container, false);
-        REQUEST_PICK_IMAGE = 1;
-        REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 2;
+
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("Post Uploading");
         dialog.setMessage("Please Wait...");
@@ -94,26 +98,24 @@ public class AddPostFragment extends Fragment {
         dialog.setCanceledOnTouchOutside(false);
 
 
-        database.getReference().child("users")
-                .child(FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseFirestore.getInstance().collection("users")
+                .document(FirebaseUtil.currentUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            UserModel user = snapshot.getValue(UserModel.class);
-//                            Picasso.get()
-//                                    .load(user.getProfile())
-//                                    .placeholder(R.drawable.placeholder)
-//                                    .into(binding.profileImage);
-                            binding.name.setText(user.getUsername());
-                            binding.profession.setText(user.getProfession());
-                        }
-                    }
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        UserModel user = task.getResult().toObject(UserModel.class);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        Picasso.get()
+                                .load(user.getProfile())
+                                .placeholder(R.drawable.placeholder)
+                                .error(R.drawable.placeholder)
+                                .into(binding.profileImage);
+                        binding.name.setText(user.getUsername());
+                        binding.profession.setText(user.getProfession());
+
 
                     }
                 });
+
 
         binding.postDescription.addTextChangedListener(new TextWatcher() {
             @Override
@@ -218,6 +220,9 @@ public class AddPostFragment extends Fragment {
                 });
             }
         });
+
+
+
 
         return binding.getRoot();
     }

@@ -11,11 +11,48 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_margin="20dp">
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/midnight_blue"
+            android:fitsSystemWindows="true"
+            android:id="@+id/idtoolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/backbtn"
+                    android:src="@drawable/backbtn"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginLeft="@dimen/_25sdp"
+
+                    android:padding="4dp"
+                    android:text="    Profile"
+                    android:textSize="15sp"
+
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/_10sdp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"

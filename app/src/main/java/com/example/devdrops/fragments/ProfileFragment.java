@@ -64,17 +64,16 @@ public class ProfileFragment extends Fragment {
     RecyclerView recyclerView;
     ProfilePostAdapter adapter; // Create Object of the Adapter class
 
-    TextView profile_username,followcount,following;
-    EditText profile_Proffesion;
+    TextView profile_username,followcount,following,nopostTextView;
+    TextView profile_Proffesion;
     ImageView profile_imageView;
-    Button update_profile;
+
     Uri uri;
     FirebaseStorage storage;
     ProgressDialog dialog;
     int FLAG=0;
 
-    private int REQUEST_PICK_IMAGE;
-    private int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE;
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -99,9 +98,7 @@ public class ProfileFragment extends Fragment {
         profile_username = rootView.findViewById(R.id.profile_username);
         profile_Proffesion = rootView.findViewById(R.id.profile_Proffesion);
         profile_imageView=rootView.findViewById(R.id.profile_imageView);
-        update_profile=rootView.findViewById(R.id.profile_update_btn);
-        REQUEST_PICK_IMAGE = 1;
-        REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 2;
+      nopostTextView=rootView.findViewById(R.id.no_post_yet);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("Post Uploading");
         dialog.setMessage("Please Wait...");
@@ -117,55 +114,7 @@ public class ProfileFragment extends Fragment {
         });
 
 
-        update_profile.setOnClickListener(view -> {
-            dialog.show();
-            if (FLAG==1)
-            {
-                final StorageReference reference = storage.getReference().child("posts")
-                        .child(FirebaseAuth.getInstance().getUid())
-                        .child(new Date().getTime() + "");
 
-                reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-
-
-                                FirebaseUtil.currentUserDetails().update("profile",uri.toString());
-                                if (profile_Proffesion.getText().toString() != "") {
-                                    FirebaseUtil.currentUserDetails().update("profession", profile_Proffesion.getText().toString()
-                                    );
-                                }
-                                dialog.dismiss();
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                dialog.dismiss(); // Dismiss dialog on failure
-                                Log.d("Error", e.toString());
-                                Toast.makeText(getContext(), "Failed to upload post. Please try again.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-            }
-            else
-            {
-                if (profile_Proffesion.getText().toString() != "") {
-                    FirebaseUtil.currentUserDetails().update("profession", profile_Proffesion.getText().toString()
-                    );
-                    dialog.dismiss();
-                }
-
-                    dialog.dismiss();
-
-            }
-
-
-        });
 
 
         DocumentReference currentUser = FirebaseUtil.currentUserDetails();
@@ -178,7 +127,9 @@ public class ProfileFragment extends Fragment {
                 Picasso.get()
                         .load(userModel.getProfile())
                         .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.placeholder)
                         .into(profile_imageView);
+
                followcount.setText(String.valueOf(userModel.getFollowersCount()));
                try {
                    following.setText(String.valueOf(userModel.getFollowingCount()));
@@ -209,6 +160,19 @@ public class ProfileFragment extends Fragment {
 
 
         recyclerView.setAdapter(adapter);
+
+//        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+//            @Override
+//            public void onChanged() {
+//                super.onChanged();
+//                if (adapter.getItemCount() == 0) {
+//
+//                    nopostTextView.setVisibility(View.VISIBLE);
+//                } else {
+//                    nopostTextView.setVisibility(View.GONE);
+//                }
+//            }
+//        });
         return rootView;
     }
 
@@ -247,3 +211,52 @@ public class ProfileFragment extends Fragment {
             });
 
 }
+//update_profile.setOnClickListener(view -> {
+//        dialog.show();
+//        if (FLAG==1)
+//        {
+//final StorageReference reference = storage.getReference().child("posts")
+//        .child(FirebaseAuth.getInstance().getUid())
+//        .child(new Date().getTime() + "");
+//
+//        reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//@Override
+//public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//        reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//@Override
+//public void onSuccess(Uri uri) {
+//
+//
+//        FirebaseUtil.currentUserDetails().update("profile",uri.toString());
+//        if (profile_Proffesion.getText().toString() != "") {
+//        FirebaseUtil.currentUserDetails().update("profession", profile_Proffesion.getText().toString()
+//        );
+//        }
+//        dialog.dismiss();
+//
+//        }
+//        }).addOnFailureListener(new OnFailureListener() {
+//@Override
+//public void onFailure(@NonNull Exception e) {
+//        dialog.dismiss(); // Dismiss dialog on failure
+//        Log.d("Error", e.toString());
+//        Toast.makeText(getContext(), "Failed to upload post. Please try again.", Toast.LENGTH_SHORT).show();
+//        }
+//        });
+//        }
+//        });
+//        }
+//        else
+//        {
+//        if (profile_Proffesion.getText().toString() != "") {
+//        FirebaseUtil.currentUserDetails().update("profession", profile_Proffesion.getText().toString()
+//        );
+//        dialog.dismiss();
+//        }
+//
+//        dialog.dismiss();
+//
+//        }
+//
+//
+//        });

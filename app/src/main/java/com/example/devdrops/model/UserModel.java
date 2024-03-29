@@ -8,13 +8,25 @@ public class UserModel {
     String profile;
     int followersCount;
     int followingCount;
+    Boolean isDeleted;
 
-    public UserModel(String email, String username, String userId, String profession, int followersCount) {
+    public UserModel(String email, String username, String userId, String profession, String profile, int followersCount, int followingCount, Boolean isDeleted) {
         this.email = email;
         this.username = username;
         this.userId = userId;
         this.profession = profession;
-        this.followersCount=followersCount;
+        this.profile = profile;
+        this.followersCount = followersCount;
+        this.followingCount = followingCount;
+        this.isDeleted = isDeleted;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     public int getFollowingCount() {

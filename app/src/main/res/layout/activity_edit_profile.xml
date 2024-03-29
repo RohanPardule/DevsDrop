@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fragments.ProfileFragment"
+    android:padding="@dimen/_10sdp"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    >
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/backbtn_blue"
+    android:id="@+id/backBtn_edit_profile"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:background="@drawable/circular_background"
+                    android:backgroundTint="@color/gray"
+                    android:src="@drawable/baseline_person_24"
+                    android:scaleType="centerCrop"
+                    android:padding="@dimen/_2sdp"
+                    android:layout_gravity="center"
+                    android:id="@+id/profile_imageView"
+                    />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/midnight_blue"
+        android:id="@+id/change_profile"
+        android:paddingTop="@dimen/_2sdp"
+        android:paddingBottom="@dimen/_3sdp"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp"
+      android:layout_marginBottom="@dimen/_30sdp"
+        android:layout_gravity="center"
+        android:text="Change profile picture"
+        android:background="@drawable/round_corner_button"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Username :"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/midnight_blue"
+
+
+        />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    android:textSize="18sp"
+                   android:layout_marginBottom="@dimen/_10sdp"
+                    android:textColor="@color/midnight_blue"
+                    android:id="@+id/profile_username"
+
+                    />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proffesion :"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/midnight_blue"
+
+
+        />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="Proffesion"
+                    android:textSize="15sp"
+                    android:textColor="@color/midnight_blue"
+                    android:id="@+id/profile_Proffesion"
+                    android:inputType="text"
+                    android:enabled="true"
+                    android:layout_marginBottom="@dimen/_30sdp"
+
+                    />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/update_profile_btn"
+        android:text=" Save "/>
+
+</LinearLayout>
+
+
+
+
+
+

@@ -23,6 +23,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -68,6 +69,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     EditText myquery;
     AppCompatButton postBtn;
     CircleImageView profileImage;
+    ImageView backBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +80,7 @@ public class AddQuestionActivity extends AppCompatActivity {
         myquery=findViewById(R.id.myQuestion);
         postBtn=findViewById(R.id.addquestion_postBtn);
         profileImage=findViewById(R.id.addquestion_profileImage);
+        backBtn=findViewById(R.id.backbtn_add_question);
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -87,6 +90,9 @@ public class AddQuestionActivity extends AppCompatActivity {
         dialog.setMessage("Please Wait...");
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
+        backBtn.setOnClickListener(view -> {
+            onBackPressed();
+        });
 
 
         FirebaseFirestore.getInstance().collection("users")
