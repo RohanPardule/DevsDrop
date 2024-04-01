@@ -34,6 +34,7 @@ import com.example.devdrops.R;
 import com.example.devdrops.adapter.PostAdapter;
 import com.example.devdrops.adapter.ProfilePostAdapter;
 
+import com.example.devdrops.interfaces.UserModelCallback;
 import com.example.devdrops.model.DashBoardModel;
 import com.example.devdrops.model.UserModel;
 import com.example.devdrops.util.FirebaseUtil;
@@ -64,12 +65,12 @@ public class ProfileFragment extends Fragment {
     RecyclerView recyclerView;
     ProfilePostAdapter adapter; // Create Object of the Adapter class
 
-    TextView profile_username,followcount,following,nopostTextView;
+    TextView profile_username,followcount,following,noOfpost;
     TextView profile_Proffesion;
     ImageView profile_imageView;
 
     Uri uri;
-    FirebaseStorage storage;
+
     ProgressDialog dialog;
     int FLAG=0;
 
@@ -83,7 +84,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        storage = FirebaseStorage.getInstance();
+
         dialog = new ProgressDialog(getContext());
     }
 
@@ -98,53 +99,19 @@ public class ProfileFragment extends Fragment {
         profile_username = rootView.findViewById(R.id.profile_username);
         profile_Proffesion = rootView.findViewById(R.id.profile_Proffesion);
         profile_imageView=rootView.findViewById(R.id.profile_imageView);
-      nopostTextView=rootView.findViewById(R.id.no_post_yet);
+        noOfpost=rootView.findViewById(R.id.no_of_posts);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("Post Uploading");
         dialog.setMessage("Please Wait...");
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
 
-        profile_imageView.setOnClickListener(view -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-            pickImageActivityResultLauncher.launch(intent);
-        });
+loadUserData();
 
-
-
-
-
-        DocumentReference currentUser = FirebaseUtil.currentUserDetails();
-        currentUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                UserModel userModel = task.getResult().toObject(UserModel.class);
-                profile_username.setText(userModel.getUsername().toString());
-                profile_Proffesion.setText(userModel.getProfession().toString());
-                Picasso.get()
-                        .load(userModel.getProfile())
-                        .placeholder(R.drawable.placeholder)
-                        .error(R.drawable.placeholder)
-                        .into(profile_imageView);
-
-               followcount.setText(String.valueOf(userModel.getFollowersCount()));
-               try {
-                   following.setText(String.valueOf(userModel.getFollowingCount()));
-               }
-               catch (Exception e){
-                   following.setText(0);
-               }
-
-            }
-        });
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3, GridLayoutManager.VERTICAL, false);
-
         recyclerView.setLayoutManager(layoutManager);
-
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
@@ -157,22 +124,8 @@ public class ProfileFragment extends Fragment {
 
         // the Adapter class itself
         adapter = new ProfilePostAdapter(options);
-
-
         recyclerView.setAdapter(adapter);
 
-//        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-//            @Override
-//            public void onChanged() {
-//                super.onChanged();
-//                if (adapter.getItemCount() == 0) {
-//
-//                    nopostTextView.setVisibility(View.VISIBLE);
-//                } else {
-//                    nopostTextView.setVisibility(View.GONE);
-//                }
-//            }
-//        });
         return rootView;
     }
 
@@ -209,6 +162,44 @@ public class ProfileFragment extends Fragment {
                     }
                 }
             });
+
+
+
+    public void loadUserData() {
+        FirebaseUtil.getCurrentUserModel(new UserModelCallback() {
+            @Override
+            public void onUserModelCallback(UserModel userModel) {
+                if (userModel != null) {
+                    // Set user data to UI components
+                    profile_username.setText(userModel.getUsername().toString());
+                    profile_Proffesion.setText(userModel.getProfession().toString());
+                    Picasso.get()
+                            .load(userModel.getProfile())
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.placeholder)
+                            .into(profile_imageView);
+
+                    followcount.setText(String.valueOf(userModel.getFollowersCount()));
+                    try {
+                        following.setText(String.valueOf(userModel.getFollowingCount()));
+                    }
+                    catch (Exception e){
+                        following.setText(0);
+                    }
+                    try {
+                        noOfpost.setText(String.valueOf(userModel.getNumberOfPosts()));
+                    }
+                    catch (Exception e){
+                        noOfpost.setText(0);
+                    }
+                } else {
+                    // Handle user data not found
+                    // Show default or placeholder data
+                }
+            }
+        });
+    }
+
 
 }
 //update_profile.setOnClickListener(view -> {
@@ -259,4 +250,36 @@ public class ProfileFragment extends Fragment {
 //        }
 //
 //
+//        });
+//        DocumentReference currentUser = FirebaseUtil.currentUserDetails();
+//        currentUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                UserModel userModel = task.getResult().toObject(UserModel.class);
+//                profile_username.setText(userModel.getUsername().toString());
+//                profile_Proffesion.setText(userModel.getProfession().toString());
+//                Picasso.get()
+//                        .load(userModel.getProfile())
+//                        .placeholder(R.drawable.placeholder)
+//                        .error(R.drawable.placeholder)
+//                        .into(profile_imageView);
+//
+//               followcount.setText(String.valueOf(userModel.getFollowersCount()));
+//               try {
+//                   following.setText(String.valueOf(userModel.getFollowingCount()));
+//               }
+//               catch (Exception e){
+//                   following.setText(0);
+//               }
+//
+//            }
+//        });
+//
+//
+//        profile_imageView.setOnClickListener(view -> {
+//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//            intent.setType("image/*");
+//            intent.addCategory(Intent.CATEGORY_OPENABLE);
+//
+//            pickImageActivityResultLauncher.launch(intent);
 //        });

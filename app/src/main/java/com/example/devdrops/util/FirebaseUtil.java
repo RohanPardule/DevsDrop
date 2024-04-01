@@ -1,9 +1,16 @@
 package com.example.devdrops.util;
 
+import androidx.annotation.NonNull;
+
+import com.example.devdrops.interfaces.UserModelCallback;
+import com.example.devdrops.model.UserModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -40,6 +47,50 @@ public class FirebaseUtil {
         return FirebaseFirestore.getInstance().collection("users").document(id);
 
     }
+
+//    public static UserModel getCurrentUserModel(){
+//        final UserModel[] userModel = {new UserModel()};
+//        FirebaseFirestore.getInstance().collection("users")
+//                .document(FirebaseUtil.currentUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                       userModel[0] = task.getResult().toObject(UserModel.class);
+//
+//
+//
+//
+//
+//                    }
+//                });
+//
+//        return userModel[0];
+//    }
+    public static void getCurrentUserModel(final UserModelCallback callback) {
+        FirebaseFirestore.getInstance().collection("users")
+                .document(FirebaseUtil.currentUserId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                UserModel userModel = document.toObject(UserModel.class);
+                                callback.onUserModelCallback(userModel); // Pass the userModel to the callback
+                            } else {
+                                // Handle document not existing
+                                callback.onUserModelCallback(null);
+                            }
+                        } else {
+                            // Handle task failure
+                            callback.onUserModelCallback(null);
+                        }
+                    }
+                });
+    }
+
+
+
 
 
     //    public static CollectionReference allVetCollectionReference(){

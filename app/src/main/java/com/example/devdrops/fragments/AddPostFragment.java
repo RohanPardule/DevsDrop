@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.example.devdrops.R;
 import com.example.devdrops.databinding.FragmentAddPostBinding;
+import com.example.devdrops.interfaces.UserModelCallback;
 import com.example.devdrops.model.DashBoardModel;
 import com.example.devdrops.model.UserModel;
 import com.example.devdrops.util.FirebaseUtil;
@@ -69,6 +70,7 @@ public class AddPostFragment extends Fragment {
     FirebaseStorage storage;
     ProgressDialog dialog;
 
+    UserModel currentUser;
 
 
     public AddPostFragment() {
@@ -90,32 +92,13 @@ public class AddPostFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentAddPostBinding.inflate(inflater, container, false);
-
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("Post Uploading");
         dialog.setMessage("Please Wait...");
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
 
-
-        FirebaseFirestore.getInstance().collection("users")
-                .document(FirebaseUtil.currentUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        UserModel user = task.getResult().toObject(UserModel.class);
-
-                        Picasso.get()
-                                .load(user.getProfile())
-                                .placeholder(R.drawable.placeholder)
-                                .error(R.drawable.placeholder)
-                                .into(binding.profileImage);
-                        binding.name.setText(user.getUsername());
-                        binding.profession.setText(user.getProfession());
-
-
-                    }
-                });
-
+        loadUserData();
 
         binding.postDescription.addTextChangedListener(new TextWatcher() {
             @Override
@@ -165,12 +148,10 @@ public class AddPostFragment extends Fragment {
 
                 hideKeyboard();
                 String desc = binding.postDescription.getText().toString();
-
                 dialog.show();
                 final StorageReference reference = storage.getReference().child("posts")
                         .child(FirebaseAuth.getInstance().getUid())
                         .child(new Date().getTime() + "");
-
                 reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -186,8 +167,6 @@ public class AddPostFragment extends Fragment {
                                 post.setPostedAt(new Date().getTime());
                                 post.setPostLike(0);
                                 post.setCommentCount(0);
-
-
                                 database.getReference().child("posts")
                                         .child(postId)
                                         .setValue(post).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -196,7 +175,7 @@ public class AddPostFragment extends Fragment {
                                                 dialog.dismiss();
                                                 binding.postImage.setVisibility(View.GONE);
                                                 binding.postDescription.setText("");
-
+                                                updateNoOfPosts();
                                                 Toast.makeText(getContext(), "Posted Successfully", Toast.LENGTH_SHORT).show();
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
@@ -238,6 +217,47 @@ public class AddPostFragment extends Fragment {
     }
 
 
+    public void updateNoOfPosts() {
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                UserModel model=task.getResult().toObject(UserModel.class);
+                int  count=0;
+                try{
+                    count =model.getNumberOfPosts();
+                }
+                catch (Exception e){
+
+                }
+
+                FirebaseUtil.currentUserDetails().update("numberOfPosts",count+1);
+            }
+        });
+    }
+
+    public void loadUserData() {
+        FirebaseUtil.getCurrentUserModel(new UserModelCallback() {
+            @Override
+            public void onUserModelCallback(UserModel userModel) {
+                if (userModel != null) {
+                    // Set user data to UI components
+                    Picasso.get()
+                            .load(userModel.getProfile())
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.placeholder)
+                            .into(binding.profileImage);
+                    binding.name.setText(userModel.getUsername());
+                    binding.profession.setText(userModel.getProfession());
+                } else {
+                    // Handle user data not found
+                    // Show default or placeholder data
+                }
+            }
+        });
+    }
+
+
+
     ActivityResultLauncher<Intent> pickImageActivityResultLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -257,3 +277,20 @@ public class AddPostFragment extends Fragment {
             });
 
 }
+//        FirebaseFirestore.getInstance().collection("users")
+//                .document(FirebaseUtil.currentUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        UserModel user = task.getResult().toObject(UserModel.class);
+//
+//                        Picasso.get()
+//                                .load(user.getProfile())
+//                                .placeholder(R.drawable.placeholder)
+//                                .error(R.drawable.placeholder)
+//                                .into(binding.profileImage);
+//                        binding.name.setText(user.getUsername());
+//                        binding.profession.setText(user.getProfession());
+//
+//
+//                    }
+//                });

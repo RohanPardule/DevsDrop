@@ -25,11 +25,10 @@ public class PostFragment extends Fragment {
 
     ShimmerFrameLayout shimmerFrameLayout;
     RecyclerView recyclerView;
-    LinearLayout lnr_data_unavailable;
-    PostAdapter adapter; // Create Object of the Adapter class
-    DatabaseReference mbase; // Create object of the
+    PostAdapter adapter;
+    DatabaseReference mbase;
 
-    // Firebase Realtime Database
+
     public PostFragment() {
         // Required empty public constructor
     }
@@ -37,7 +36,7 @@ public class PostFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     @Override
@@ -45,11 +44,12 @@ public class PostFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_post, container, false);
+
+
         recyclerView = rootView.findViewById(R.id.dashboardRV);
         shimmerFrameLayout = rootView.findViewById(R.id.shimmerFrameLayout);
 
-        mbase
-                = FirebaseDatabase.getInstance().getReference().child("posts");
+        mbase = FirebaseDatabase.getInstance().getReference().child("posts");
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
@@ -57,19 +57,14 @@ public class PostFragment extends Fragment {
 // Set the LayoutManager to the RecyclerView
         recyclerView.setLayoutManager(layoutManager);
 
-
-
-        // query in the database to fetch appropriate data
+// query in the database to fetch appropriate data
         Query query = mbase.orderByChild("postedAt").limitToLast(50);
         FirebaseRecyclerOptions<DashBoardModel> options
                 = new FirebaseRecyclerOptions.Builder<DashBoardModel>()
                 .setQuery(query, DashBoardModel.class)
                 .build();
-
-
         adapter = new PostAdapter(options,getContext());
-        // Connecting Adapter class with the Recycler view*/
-        // Reverse the order of elements in the adapter
+
 startFetching();
 
 
@@ -102,18 +97,14 @@ startFetching();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//check whether internet connection available or not
 
-
-                    //stop shimmer layout animation
-                recyclerView.setAdapter(adapter);
-                recyclerView.setVisibility(View.VISIBLE);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setVisibility(View.VISIBLE);
+                //stop shimmer layout animation
                     shimmerFrameLayout.stopShimmerAnimation();
                     shimmerFrameLayout.setVisibility(View.GONE);
-
-
             }
-        }, 2000);
+        }, 1000);
     }
 
 

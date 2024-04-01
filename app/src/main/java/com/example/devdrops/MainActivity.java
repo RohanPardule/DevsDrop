@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             if (i == 0) {
                 loadFragment(new PostFragment());
             } else if (i == 1) {
-                loadFragment(new QuestionsFragment());
+                loadFragment(new DoubtFragment());
             } else if (i == 2) {
                 loadFragment(new AddPostFragment());
             }

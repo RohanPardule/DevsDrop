@@ -18,6 +18,7 @@ import com.example.devdrops.R;
 import com.example.devdrops.databinding.QuestionsRowLayoutBinding;
 import com.example.devdrops.fragments.AnswersActivity;
 import com.example.devdrops.fragments.CommentActivity;
+import com.example.devdrops.fragments.OtherUserProfileActivity;
 import com.example.devdrops.model.QuestionModel;
 import com.example.devdrops.model.QuestionModel;
 import com.example.devdrops.model.UserModel;
@@ -66,6 +67,7 @@ public class QueryAdapter extends FirebaseRecyclerAdapter<
                                     .error(R.drawable.placeholder)
                                     .into(holder.binding.questionsProfileImage);
 
+
                             holder.binding.questionUsername.setText(user.getUsername());
 
                             holder.binding.question.setText(questionModel.getQuestion());
@@ -82,6 +84,15 @@ public class QueryAdapter extends FirebaseRecyclerAdapter<
             intent.putExtra("time",questionModel.getPostedAt());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+        });
+        holder.profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, OtherUserProfileActivity.class);
+                intent.putExtra("otherUser", questionModel.getPostedby());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
         });
 
 

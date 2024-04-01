@@ -1,6 +1,7 @@
 package com.example.devdrops.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devdrops.R;
 import com.example.devdrops.databinding.CommentSampleBinding;
+import com.example.devdrops.fragments.OtherUserProfileActivity;
 import com.example.devdrops.model.AnswerModel;
 import com.example.devdrops.model.Comment;
 import com.example.devdrops.model.UserModel;
@@ -56,6 +58,16 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.viewHolder
                         .placeholder(R.drawable.placeholder)
                         .into(holder.binding.profileImage);
 
+            }
+        });
+
+        holder.binding.profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, OtherUserProfileActivity.class);
+                intent.putExtra("otherUser", answerModel.getPostedby());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
 //

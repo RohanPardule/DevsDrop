@@ -142,7 +142,7 @@ public class SignInActivity extends AppCompatActivity {
 //                    map.put("name",user.getDisplayName());
 //                    map.put("profile",user.getPhotoUrl().toString());
                     UserModel userModel = new UserModel(user.getEmail(), user.getDisplayName(),
-                            user.getUid(), "Na",user.getPhotoUrl().toString(),0,0,false);
+                            user.getUid(), "Na",user.getPhotoUrl().toString(),0,0,false,0);
 
                     FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

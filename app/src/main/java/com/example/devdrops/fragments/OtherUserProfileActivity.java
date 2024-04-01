@@ -38,10 +38,6 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
      otherUser = FirebaseUtil.getOtherUserDetails(otherUserId);
      currentUser=FirebaseUtil.currentUserDetails();
-
-
-
-
         otherUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

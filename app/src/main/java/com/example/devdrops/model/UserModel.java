@@ -8,9 +8,12 @@ public class UserModel {
     String profile;
     int followersCount;
     int followingCount;
+    int numberOfPosts;
     Boolean isDeleted;
 
-    public UserModel(String email, String username, String userId, String profession, String profile, int followersCount, int followingCount, Boolean isDeleted) {
+
+
+    public UserModel(String email, String username, String userId, String profession, String profile, int followersCount, int followingCount, Boolean isDeleted,int numberOfPosts) {
         this.email = email;
         this.username = username;
         this.userId = userId;
@@ -19,6 +22,15 @@ public class UserModel {
         this.followersCount = followersCount;
         this.followingCount = followingCount;
         this.isDeleted = isDeleted;
+        this.numberOfPosts = numberOfPosts;
+    }
+
+    public int getNumberOfPosts() {
+        return numberOfPosts;
+    }
+
+    public void setNumberOfPosts(int numberOfPosts) {
+        this.numberOfPosts = numberOfPosts;
     }
 
     public Boolean getDeleted() {

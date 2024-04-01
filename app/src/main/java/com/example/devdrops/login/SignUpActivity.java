@@ -63,7 +63,7 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.makeText(SignUpActivity.this, "Sign up successful.", Toast.LENGTH_SHORT).show();
 
                             String id = FirebaseAuth.getInstance().getUid();
-                            UserModel userModel = new UserModel(email, name, id, "Na","Na", 0,0,false);
+                            UserModel userModel = new UserModel(email, name, id, "Na","Na", 0,0,false,0);
                             FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
