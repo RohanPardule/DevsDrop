@@ -2,6 +2,8 @@ package com.example.devdrops.fragments;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static java.security.AccessController.getContext;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -18,6 +20,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.devdrops.R;
@@ -44,6 +48,7 @@ public class EditProfileActivity extends AppCompatActivity {
     Uri uri;
     FirebaseStorage storage;
     ProgressDialog dialog;
+
     int FLAG=0;
 
     @Override
@@ -51,12 +56,13 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityEditProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        dialog = new ProgressDialog(EditProfileActivity.this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("Updating your profile");
         dialog.setMessage("Please Wait...");
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
-
+        storage = FirebaseStorage.getInstance();
         DocumentReference currentUser = FirebaseUtil.currentUserDetails();
         currentUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -87,7 +93,9 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
 
-
+binding.backBtnEditProfile.setOnClickListener(view -> {
+    onBackPressed();
+});
 
     }
     private void showYesNoDialog(Context context, String title, String message) {
@@ -103,7 +111,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 dialog.show();
                 if (FLAG==1)
                 {
-                    final StorageReference reference = storage.getReference().child("posts")
+                    final StorageReference reference = storage.getReference().child("profile")
                             .child(FirebaseAuth.getInstance().getUid())
                             .child(new Date().getTime() + "");
 
@@ -125,6 +133,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                         );
                                     }
                                     dialog.dismiss();
+                                    onBackPressed();
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -149,6 +158,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     }
 
                     dialog.dismiss();
+                    onBackPressed();
 
                 }
             }

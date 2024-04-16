@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.devdrops.R;
@@ -44,9 +46,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -57,7 +62,9 @@ import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class ProfileFragment extends Fragment {
 
@@ -66,8 +73,9 @@ public class ProfileFragment extends Fragment {
     ProfilePostAdapter adapter; // Create Object of the Adapter class
 
     TextView profile_username,followcount,following,noOfpost;
-    TextView profile_Proffesion;
+    TextView profile_Proffesion,edit_profile_btn;
     ImageView profile_imageView;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     Uri uri;
 
@@ -100,6 +108,9 @@ public class ProfileFragment extends Fragment {
         profile_Proffesion = rootView.findViewById(R.id.profile_Proffesion);
         profile_imageView=rootView.findViewById(R.id.profile_imageView);
         noOfpost=rootView.findViewById(R.id.no_of_posts);
+        edit_profile_btn=rootView.findViewById(R.id.editProfile);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("Post Uploading");
         dialog.setMessage("Please Wait...");
@@ -113,56 +124,81 @@ loadUserData();
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
+
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
-                .child("posts").orderByChild("postedBy").equalTo(FirebaseUtil.currentUserId());
+                .child("posts").orderByChild("postedBy").equalTo(FirebaseUtil.currentUserId()).limitToLast(50);
 
-        FirebaseRecyclerOptions<DashBoardModel> options
-                = new FirebaseRecyclerOptions.Builder<DashBoardModel>()
-                .setQuery(query, DashBoardModel.class)
-                .build();
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<DashBoardModel> dataList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    DashBoardModel model = dataSnapshot.getValue(DashBoardModel.class);
+                    dataList.add(model);
+                }
+                // Reverse the data list
+                Collections.reverse(dataList);
+
+                // Pass the reversed data to the adapter
+                ProfilePostAdapter adapter = new ProfilePostAdapter(dataList,getContext());
+             recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle error
+            }
+        });
 
         // the Adapter class itself
-        adapter = new ProfilePostAdapter(options);
-        recyclerView.setAdapter(adapter);
+//        adapter = new ProfilePostAdapter(options);
+//        recyclerView.setAdapter(adapter);
+
+        edit_profile_btn.setOnClickListener(view -> {
+            Intent i=new Intent(getActivity(), EditProfileActivity.class);
+            getContext().startActivity(i);
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Perform data refreshing operation
+                // Example: Call a method to fetch new data from a data source
+                swipeRefreshLayout.setRefreshing(true);
+             loadUserData();
+
+
+                // Simulate data fetching for 2 seconds
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Stop SwipeRefreshLayout progress bar
+                        swipeRefreshLayout.setRefreshing(false);
+
+                        // Update RecyclerView with new data
+                        // Here you would typically notify your adapter that the data set has changed
+                    }
+                }, 2000);
+            }
+
+        });
+
 
         return rootView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        adapter.stopListening();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
-    }
-    ActivityResultLauncher<Intent> pickImageActivityResultLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-
-                        uri = data.getData();
-                        profile_imageView.setImageURI(uri);
-                        FLAG=1;
-
-
-
-                    }
-                }
-            });
-
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        adapter.startListening();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        adapter.stopListening();
+//    }
 
 
     public void loadUserData() {
@@ -200,86 +236,29 @@ loadUserData();
         });
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserData();
+    }
 }
-//update_profile.setOnClickListener(view -> {
-//        dialog.show();
-//        if (FLAG==1)
-//        {
-//final StorageReference reference = storage.getReference().child("posts")
-//        .child(FirebaseAuth.getInstance().getUid())
-//        .child(new Date().getTime() + "");
+
+
+//    ActivityResultLauncher<Intent> pickImageActivityResultLauncher =
+//            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+//                @Override
+//                public void onActivityResult(ActivityResult result) {
+//                    if (result.getResultCode() == Activity.RESULT_OK) {
+//                        Intent data = result.getData();
 //
-//        reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//@Override
-//public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//        reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//@Override
-//public void onSuccess(Uri uri) {
+//                        uri = data.getData();
+//                        profile_imageView.setImageURI(uri);
+//                        FLAG=1;
 //
 //
-//        FirebaseUtil.currentUserDetails().update("profile",uri.toString());
-//        if (profile_Proffesion.getText().toString() != "") {
-//        FirebaseUtil.currentUserDetails().update("profession", profile_Proffesion.getText().toString()
-//        );
-//        }
-//        dialog.dismiss();
 //
-//        }
-//        }).addOnFailureListener(new OnFailureListener() {
-//@Override
-//public void onFailure(@NonNull Exception e) {
-//        dialog.dismiss(); // Dismiss dialog on failure
-//        Log.d("Error", e.toString());
-//        Toast.makeText(getContext(), "Failed to upload post. Please try again.", Toast.LENGTH_SHORT).show();
-//        }
-//        });
-//        }
-//        });
-//        }
-//        else
-//        {
-//        if (profile_Proffesion.getText().toString() != "") {
-//        FirebaseUtil.currentUserDetails().update("profession", profile_Proffesion.getText().toString()
-//        );
-//        dialog.dismiss();
-//        }
-//
-//        dialog.dismiss();
-//
-//        }
+//                    }
+//                }
+//            });
 //
 //
-//        });
-//        DocumentReference currentUser = FirebaseUtil.currentUserDetails();
-//        currentUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                UserModel userModel = task.getResult().toObject(UserModel.class);
-//                profile_username.setText(userModel.getUsername().toString());
-//                profile_Proffesion.setText(userModel.getProfession().toString());
-//                Picasso.get()
-//                        .load(userModel.getProfile())
-//                        .placeholder(R.drawable.placeholder)
-//                        .error(R.drawable.placeholder)
-//                        .into(profile_imageView);
-//
-//               followcount.setText(String.valueOf(userModel.getFollowersCount()));
-//               try {
-//                   following.setText(String.valueOf(userModel.getFollowingCount()));
-//               }
-//               catch (Exception e){
-//                   following.setText(0);
-//               }
-//
-//            }
-//        });
-//
-//
-//        profile_imageView.setOnClickListener(view -> {
-//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//            intent.setType("image/*");
-//            intent.addCategory(Intent.CATEGORY_OPENABLE);
-//
-//            pickImageActivityResultLauncher.launch(intent);
-//        });

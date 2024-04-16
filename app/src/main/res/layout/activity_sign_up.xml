@@ -112,6 +112,7 @@
             android:layout_marginTop="4dp"
             android:text="Already Have An Account?"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="@dimen/_12sdp" />
 
         <TextView
@@ -119,9 +120,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Sign In"
+            android:text=" Sign In"
             android:textColor="@color/midnight_blue"
-            android:textSize="@dimen/_12sdp"
+            android:textSize="18sp"
+            android:fontFamily="@font/segoe_ui_semibold"
             android:textStyle="bold" />
 
     </LinearLayout>

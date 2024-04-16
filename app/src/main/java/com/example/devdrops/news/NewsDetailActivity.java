@@ -19,7 +19,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     String title, content, description, imageUrl, url;
     private TextView titleTV, subDescTV, contentTV;
 
-    private ImageView newsIV;
+    private ImageView newsIV,backBtn;
     private Button readNewsBtn;
 
     @Override
@@ -31,6 +31,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         description = getIntent().getStringExtra("description");
         imageUrl = getIntent().getStringExtra("image");
         url = getIntent().getStringExtra("url");
+        backBtn=findViewById(R.id.backbtn_toolbar);
 
         titleTV = findViewById(R.id.idTVTitle);
         subDescTV = findViewById(R.id.idTVSubDescription);
@@ -47,6 +48,9 @@ public class NewsDetailActivity extends AppCompatActivity {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
+        });
+        backBtn.setOnClickListener(view -> {
+            onBackPressed();
         });
 
 

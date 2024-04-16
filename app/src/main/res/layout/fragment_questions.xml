@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/comment_sample"
+        tools:listitem="@layout/questions_row_layout"
         android:elevation="2dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

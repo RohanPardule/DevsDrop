@@ -1,11 +1,13 @@
 package com.example.devdrops.news;
 
+import android.graphics.drawable.Drawable;
+
 public class CategoriesRVModal {
 
     private String category;
-    private String categoryImageUrl;
+    private int categoryImageUrl;
 
-    public CategoriesRVModal(String category, String categoryImageUrl) {
+    public CategoriesRVModal(String category, int categoryImageUrl) {
         this.category = category;
         this.categoryImageUrl = categoryImageUrl;
     }
@@ -18,11 +20,11 @@ public class CategoriesRVModal {
         this.category = category;
     }
 
-    public String getCategoryImageUrl() {
+    public int getCategoryImageUrl() {
         return categoryImageUrl;
     }
 
-    public void setCategoryImageUrl(String categoryImageUrl) {
+    public void setCategoryImageUrl(int categoryImageUrl) {
         this.categoryImageUrl = categoryImageUrl;
     }
 }

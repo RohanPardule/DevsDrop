@@ -1,5 +1,7 @@
 package com.example.devdrops.fragments;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -20,6 +22,8 @@ import java.util.List;
 
 
 public class DoubtFragment extends Fragment {
+    ViewPager2 viewPager2;
+    TabLayout tabLayout;
 
 
     public DoubtFragment() {
@@ -37,58 +41,29 @@ public class DoubtFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_doubt, container, false);
-        ViewPager2 viewPager = rootview.findViewById(R.id.viewPager);
-        TabLayout tabLayout = rootview.findViewById(R.id.tabLayout);
+        viewPager2 = rootview.findViewById(R.id.viewPager);
+        tabLayout = rootview.findViewById(R.id.tabLayout);
 
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new QuestionsFragment());
-        fragments.add(new QuestionsFragment());
-        fragments.add(new QuestionsFragment());
+        fragments.add(new MyQueriesFragment());
 
-        MyPagerAdapter pagerAdapter = new MyPagerAdapter(requireActivity(), fragments);
-        viewPager.setAdapter(pagerAdapter);
 
-        new TabLayoutMediator(tabLayout, viewPager,
+        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getActivity(), fragments);
+        viewPager2.setAdapter(pagerAdapter);
+
+        new TabLayoutMediator(tabLayout, viewPager2,
                 (tab, position) -> tab.setText(getTabTitle(position))
         ).attach();
-
-        TabLayout.Tab tab = tabLayout.getTabAt(0);
-        if (tab != null) {
-            tab.select();
-        }
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                tabLayout.setTabTextColors(ContextCompat.getColor(getContext(), R.color.gray), ContextCompat.getColor(getContext(), R.color.midnight_blue));
-                tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(getContext(), R.color.midnight_blue));
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                tabLayout.setTabTextColors(ContextCompat.getColor(getContext(), R.color.midnight_blue), ContextCompat.getColor(getContext(), R.color.midnight_blue));}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-
         return rootview;
     }
 
     private String getTabTitle(int position) {
-        switch (position) {
-            case 0:
-                return "Queries";
-            case 1:
-                return "Forum";
-            case 2:
-                return "My queries";
-            default:
-                return null;
+        if (position == 0){
+            return "Queries";
+        }  else {
+            return "My Queries";
         }
     }
+
 }

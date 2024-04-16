@@ -7,6 +7,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,6 +55,7 @@ public class QueryAdapter extends FirebaseRecyclerAdapter<
 
         String time = TimeAgo.using(questionModel.getPostedAt());
         holder.time.setText(time);
+        holder.binding.answercount.setText(questionModel.getAnswercount() + " Answers");
 
         FirebaseFirestore.getInstance().collection("users")
                 .document(questionModel.getPostedby()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -71,17 +73,18 @@ public class QueryAdapter extends FirebaseRecyclerAdapter<
                             holder.binding.questionUsername.setText(user.getUsername());
 
                             holder.binding.question.setText(questionModel.getQuestion());
+                            holder.binding.profession.setText(user.getProfession());
 
                     }
                 });
 
         holder.binding.layout.setOnClickListener(view -> {
             Intent intent = new Intent(context, AnswersActivity.class);
-
             intent.putExtra("questionId", questionModel.getQuestionID());
             intent.putExtra("questionPostedBy", questionModel.getPostedby());
             intent.putExtra("question",questionModel.getQuestion());
-            intent.putExtra("time",questionModel.getPostedAt());
+            intent.putExtra("time",time);
+            intent.putExtra("answercount",String.valueOf(questionModel.getAnswercount()));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });
@@ -115,7 +118,8 @@ public class QueryAdapter extends FirebaseRecyclerAdapter<
             extends RecyclerView.ViewHolder {
         TextView question, time,name;
         CircleImageView profileImage;
-        ConstraintLayout layout;
+       RelativeLayout layout;
+       TextView answercount;
         QuestionsRowLayoutBinding binding;
 
         public QuestionModelViewholder(@NonNull View itemView) {
@@ -124,6 +128,7 @@ public class QueryAdapter extends FirebaseRecyclerAdapter<
             name= itemView.findViewById(R.id.question_username);
             time = itemView.findViewById(R.id.question_time);
             layout=itemView.findViewById(R.id.layout);
+            answercount=itemView.findViewById(R.id.answercount);
             profileImage=itemView.findViewById(R.id.questions_profileImage);
             binding = QuestionsRowLayoutBinding.bind(itemView);
 

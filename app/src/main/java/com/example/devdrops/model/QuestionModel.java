@@ -46,4 +46,15 @@ public class QuestionModel {
     public void setQuestionID(String questionID) {
         this.questionID = questionID;
     }
+
+    @Override
+    public String toString() {
+        return "QuestionModel{" +
+                "question='" + question + '\'' +
+                ", postedby='" + postedby + '\'' +
+                ", postedAt=" + postedAt +
+                ", questionID='" + questionID + '\'' +
+                ", answercount=" + answercount +
+                '}';
+    }
 }

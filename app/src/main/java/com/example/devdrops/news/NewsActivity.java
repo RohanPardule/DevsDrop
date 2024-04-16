@@ -3,13 +3,20 @@ package com.example.devdrops.news;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devdrops.R;
+import com.example.devdrops.model.UserModel;
+import com.example.devdrops.util.FirebaseUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +38,7 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
     private NewsRVAdapter newsRVAdapter;
     RetrofitInstance retrofitInstance;
     ImageView backbtn;
+    TextView name;
 
 
 
@@ -40,6 +48,7 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
         setContentView(R.layout.activity_news);
 
 //        frameLayout = findViewById(R.id.shimmer_container);
+        name=findViewById(R.id.greeting);
         newsRV = findViewById(R.id.idRVNews);
         categoryRV = findViewById(R.id.idRVCategories);
         backbtn=findViewById(R.id.backbtn);
@@ -59,25 +68,41 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
             onBackPressed();
         });
 
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                UserModel model=task.getResult().toObject(UserModel.class);
+
+                String inputString =  model.getUsername().toString(); // Your string with two words separated by a space
+
+                // Split the string into an array of words based on the space delimiter
+                String[] words = inputString.split(" ");
+
+                // Retrieve the first word from the array
+                String firstWord = words[0];
+                name.setText("Hi, "+firstWord+"!");
+            }
+        });
+
     }
 
     private void getCategory() {
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("All", "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&w=2070"));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("All", R.drawable.placeholder));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("Technology", "https://images.unsplash.com/photo-1539683255143-73a6b838b106?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1885&q=80"));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("Technology", R.drawable.placeholder));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("Android Development", "https://media.istockphoto.com/id/1369513916/photo/hand-with-atom-nucleus-and-electrons-symbol.jpg?s=1024x1024&w=is&k=20&c=7j0N8B5eQ27M2ik5sM1P676pDeeZ6hvdizYtYvmFc_w="));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("Android Development", R.drawable.placeholder));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("WebDev", "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("WebDev", R.drawable.placeholder));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("machine learning", "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("machine learning", R.drawable.placeholder));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("Database", "https://plus.unsplash.com/premium_photo-1676651178962-67cb1622b7ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("Database", R.drawable.placeholder));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("AI", "https://images.unsplash.com/photo-1586899028174-e7098604235b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("AI",R.drawable.placeholder));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("DevOps", "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("DevOps", R.drawable.placeholder));
 
         categoryRVAdapter.notifyDataSetChanged();
 

@@ -1,48 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    tools:context="fragments.ProfileFragment"
+    android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fragments.ProfileFragment"
     android:orientation="vertical"
     android:background="@drawable/background"
    >
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_gravity="center"
 
         >
+      <ImageView
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:background="@drawable/wave"
+          android:scaleType="fitCenter"
+          />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_gravity="center"
         android:layout_marginTop="10dp"
        >
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-       android:layout_marginStart="@dimen/_20sdp"
+        android:layout_gravity="center"
+
 
         >
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:background="@drawable/circular_background"
-            android:backgroundTint="@color/gray"
+            android:backgroundTint="@color/midnight_blue_2"
             android:src="@drawable/baseline_person_24"
             android:scaleType="centerCrop"
           android:padding="@dimen/_2sdp"
-
+            android:layout_gravity="center"
             android:id="@+id/profile_imageView"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Username"
-            android:textSize="18sp"
+            android:layout_gravity="center"
             android:textStyle="bold"
+            android:textSize="22sp"
+            android:fontFamily="@font/segoe_ui_bold"
             android:textColor="@color/midnight_blue"
             android:id="@+id/profile_username"
 
@@ -50,9 +69,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="Proffesion"
-            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:text="Android Developer"
+            android:textStyle="bold"
+            android:fontFamily="@font/sitka_display"
+            android:textSize="16sp"
             android:textColor="@color/midnight_blue"
             android:id="@+id/profile_Proffesion"
             android:layout_marginBottom="@dimen/_10sdp"
@@ -61,123 +82,116 @@
 
             />
 
+        <LinearLayout
+            android:id="@+id/pff_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="15dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="40dp">
+
+                <TextView
+                    android:id="@+id/post_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Posts"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:textColor="@color/midnight_blue"/>
+
+                <TextView
+                    android:id="@+id/no_of_posts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textSize="16sp"
+                    android:textColor="@color/midnight_blue"
+                    android:fontFamily="@font/segoe_ui_semibold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <TextView
+                    android:id="@+id/following_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Followers"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:textColor="@color/midnight_blue"/>
+
+                <TextView
+                    android:id="@+id/followcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="200"
+                    android:textSize="16sp"
+                    android:textColor="@color/midnight_blue"
+                    android:fontFamily="@font/segoe_ui_semibold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginStart="20dp">
+
+                <TextView
+                    android:id="@+id/followers_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Following"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:textColor="@color/midnight_blue"/>
+
+                <TextView
+                    android:id="@+id/followingcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="200"
+                    android:textSize="16sp"
+                    android:textColor="@color/midnight_blue"
+                    android:fontFamily="@font/segoe_ui_semibold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
 
     </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
 
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/midnight_blue"
-                    android:text="0"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:id="@+id/no_of_posts"
-                    android:inputType="text"
-                    android:textSize="20sp"
-                    android:elevation="5dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text=" Posts"
-                    android:textColor="@color/midnight_blue"
-                    android:inputType="text"
-                    android:enabled="false"
-
-                    />
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginLeft="@dimen/_20sdp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/midnight_blue"
-                    android:text="0"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:id="@+id/followcount"
-                    android:inputType="text"
-                    android:textSize="20sp"
-                    android:elevation="5dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text=" Followers"
-                    android:textColor="@color/midnight_blue"
-                    android:inputType="text"
-                    android:enabled="false"
-
-                    />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-               android:layout_marginLeft="@dimen/_20sdp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:gravity="center"
-                    android:id="@+id/followingcount"
-                    android:inputType="text"
-                    android:textStyle="bold"
-                    android:textColor="@color/midnight_blue"
-                    android:textSize="20sp"
-                    android:elevation="5dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/midnight_blue"
-                    android:text=" Following"
-                    android:inputType="text"
-                    android:enabled="false"
-                    />
-
-
-
-            </LinearLayout>
-
-
-
-        </LinearLayout>
 
     </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/_5sdp"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/editProfile"
                 android:layout_width="@dimen/_130sdp"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_5sdp"
@@ -189,7 +203,7 @@
             <TextView
                 android:layout_width="@dimen/_130sdp"
                 android:layout_height="wrap_content"
-                android:text="Share Profile"
+                android:text="Settings"
                 android:padding="@dimen/_5sdp"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -197,44 +211,50 @@
                android:layout_marginLeft="@dimen/_5sdp"
                 android:textColor="@color/midnight_blue"/>
         </LinearLayout>
-      <RelativeLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="@drawable/round_corner_top"
-         >
-          <androidx.recyclerview.widget.RecyclerView
-              android:padding="10dp"
-              android:id="@+id/profileRv"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
 
-              />
-          <TextView
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:id="@+id/no_post_yet"
-              android:background="@drawable/round_corner_top"
-              android:visibility="gone"
-              android:text="No post yet"
-              android:textSize="20sp"
-              android:gravity="center"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="vertical"
+            android:background="@drawable/round_corner_2"
+            android:layout_below="@id/pff_layout"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Posts"
+                android:textColor="@color/white"
+            android:fontFamily="sans-serif-condensed-medium"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:layout_marginTop="5dp"/>
+            <View
+                android:layout_gravity="center"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/white"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="10dp"
+                android:id="@+id/profileRv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+tools:listitem="@layout/profile_post_row"
+                />
+
+
+        </LinearLayout>
 
 
 
-
-
-
-      </RelativeLayout>
-
-    </LinearLayout>
 
 </LinearLayout>
 
 
 
+</LinearLayout>
 
-
-
-
-
-
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

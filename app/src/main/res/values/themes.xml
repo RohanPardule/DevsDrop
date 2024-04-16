@@ -7,5 +7,11 @@
 <!--        <item name="android:windowBackground">@color/Secondary_blue</item>-->
     </style>
 
+    <style name="MyTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+
+        <item name="android:textSize">15sp</item>
+
+    </style>
+
     <style name="Theme.DevDrops" parent="Base.Theme.DevDrops" />
 </resources>

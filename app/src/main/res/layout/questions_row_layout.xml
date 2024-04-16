@@ -1,67 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/layout">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/_20sdp"
+    android:padding="@dimen/_5sdp"
+    android:layout_margin="@dimen/_2sdp"
+    app:cardElevation="@dimen/_4sdp"
+   >
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/questions_profileImage"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:padding="4dp"
-        android:src="@drawable/profile"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/statusCircle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/gray_circle"
-        app:layout_constraintBottom_toBottomOf="@id/questions_profileImage"
-        app:layout_constraintEnd_toEndOf="@id/questions_profileImage"
-        app:layout_constraintStart_toStartOf="@id/questions_profileImage"
-        app:layout_constraintTop_toTopOf="@id/questions_profileImage" />
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_50sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/questions_profileImage"
-        app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/layout">
 
-        <TextView
-            android:id="@+id/question_username"
-            android:layout_width="match_parent"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/questions_profileImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:padding="4dp"
+            android:src="@drawable/profile"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="10dp" />
+
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:textStyle="bold"
-            android:text="TextView"
-            android:textColor="@color/black" />
+            android:layout_marginStart="@dimen/_47sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/question"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/question_username"
+                android:layout_marginEnd="8dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:text="Shaikh Simran"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:textColor="@color/midnight_blue" />
+
+            <TextView
+                android:id="@+id/profession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Na"
+                android:textColor="#646464"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_below="@+id/linear1"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:orientation="vertical">
 
-            android:text="TextView"
-            android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:text="Which language is better Java or Kotlin?"
+                android:textColor="@color/midnight_blue" />
 
-        <TextView
-            android:id="@+id/question_time"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/question_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="time"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_below="@+id/linear2"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="@dimen/_150sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/qna_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/qna_comment" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/answercount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lee_ui_bold"
+                android:text="View Answers"
+                android:textColor="@color/midnight_blue"
+                android:textSize="12sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear2"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_toEndOf="@+id/linear3"
+            android:orientation="horizontal">
+
+
+
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+
+<!--<TextView-->
+<!--android:id="@+id/like_txt"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:fontFamily="@font/lee_ui_bold"-->
+<!--android:text="400 likes"-->
+<!--android:textColor="@color/midnight_blue"-->
+<!--android:textSize="12sp" />-->
+
+<!--<ImageButton-->
+<!--android:id="@+id/like_btn"-->
+<!--android:layout_width="20dp"-->
+<!--android:layout_height="20dp"-->
+<!--android:background="@color/white"-->
+<!--android:scaleType="fitCenter"-->
+<!--android:src="@drawable/like" />-->

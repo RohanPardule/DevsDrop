@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-
+        android:fontFamily="@font/sitka_display"
+        android:textStyle="bold"
         android:text="Create Post"
         android:textColor="@color/black"
         android:textSize="20sp"

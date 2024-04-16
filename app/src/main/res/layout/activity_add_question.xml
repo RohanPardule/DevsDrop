@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Create Query"
+        android:fontFamily="@font/sitka_display"
+        android:textStyle="bold"
         android:textColor="@color/midnight_blue"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/addquestion_postBtn"
@@ -61,7 +63,7 @@
         android:layout_marginTop="8dp"
         android:padding="4dp"
         android:src="@drawable/profile"
-        app:layout_constraintStart_toStartOf="@+id/backbtn"
+        app:layout_constraintStart_toStartOf="@+id/backbtn_add_question"
         app:layout_constraintTop_toBottomOf="@+id/view14" />
 
     <View
@@ -79,8 +81,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:fontFamily="@font/sitka_display"
+        android:textStyle="bold"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="@color/midnight_blue"
         android:textSize="@dimen/_14font_mdp"
         app:layout_constraintBottom_toTopOf="@+id/addquestion_profession"
         app:layout_constraintStart_toEndOf="@+id/addquestion_profileImage"
@@ -101,6 +105,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_3sdp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:gravity="top"

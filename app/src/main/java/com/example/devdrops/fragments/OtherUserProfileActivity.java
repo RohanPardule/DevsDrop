@@ -1,30 +1,39 @@
 package com.example.devdrops.fragments;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.devdrops.R;
+import com.example.devdrops.adapter.ProfilePostAdapter;
 import com.example.devdrops.databinding.ActivityOtherUserProfileBinding;
+import com.example.devdrops.model.DashBoardModel;
 import com.example.devdrops.model.UserModel;
 import com.example.devdrops.util.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class OtherUserProfileActivity extends AppCompatActivity {
     String otherUserId;
     ActivityOtherUserProfileBinding binding;
     DocumentReference otherUser,currentUser;
-
+    ProfilePostAdapter adapter;
 
 
     @Override
@@ -35,6 +44,9 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
         Intent i=getIntent();
         otherUserId=i.getStringExtra("otherUser");
+        binding.backbtnOtherProfile.setOnClickListener(view -> {
+            onBackPressed();
+        });
 
      otherUser = FirebaseUtil.getOtherUserDetails(otherUserId);
      currentUser=FirebaseUtil.currentUserDetails();
@@ -49,6 +61,8 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                         .placeholder(R.drawable.placeholder)
                         .into(binding.otherProfileImageView);
                 binding.followcount.setText(String.valueOf(userModel.getFollowersCount()));
+                binding.followingcount.setText(String.valueOf(userModel.getFollowingCount()));
+                binding.noOfPosts.setText(String.valueOf(userModel.getNumberOfPosts()));
 
             }
         });
@@ -150,7 +164,50 @@ currentUser.collection("following").document(otherUserId).set(currentUsermodel).
             }
         });
 
+        GridLayoutManager layoutManager = new GridLayoutManager(OtherUserProfileActivity.this, 3, GridLayoutManager.VERTICAL, false);
 
+        binding.profileRv.setLayoutManager(layoutManager);
+
+        Query query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("posts").orderByChild("postedBy").equalTo(otherUserId).limitToLast(50);
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<DashBoardModel> dataList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    DashBoardModel model = dataSnapshot.getValue(DashBoardModel.class);
+                    dataList.add(model);
+                }
+                // Reverse the data list
+                Collections.reverse(dataList);
+
+                // Pass the reversed data to the adapter
+                ProfilePostAdapter adapter = new ProfilePostAdapter(dataList,OtherUserProfileActivity.this);
+                binding.profileRv.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle error
+            }
+        });
+
+
+//        Query query = FirebaseDatabase.getInstance()
+//                .getReference()
+//                .child("posts").orderByChild("postedBy").equalTo(FirebaseUtil.currentUserId()).limitToLast(50);
+//
+//        FirebaseRecyclerOptions<DashBoardModel> options
+//                = new FirebaseRecyclerOptions.Builder<DashBoardModel>()
+//                .setQuery(query, DashBoardModel.class)
+//                .build();
+//
+//        // the Adapter class itself
+//        adapter = new ProfilePostAdapter(options);
+//       binding.profileRv.setAdapter(adapter);
 
     }
+
 }

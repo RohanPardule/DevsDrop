@@ -41,6 +41,9 @@
             android:name=".login.SignInActivity"
             android:exported="false" />
         <activity
+            android:name=".fragments.SearchUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".splashscreen.SplashScreenActivity"
             android:exported="true">
             <intent-filter>

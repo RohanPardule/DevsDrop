@@ -86,6 +86,7 @@ if (model1.getProfile()!=null)
         Picasso.get()
                 .load(model.getPostImage())
                 .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
                 .into(holder.post_image);
 
 

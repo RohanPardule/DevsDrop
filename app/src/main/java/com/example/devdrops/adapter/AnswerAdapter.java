@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devdrops.R;
+import com.example.devdrops.databinding.AnswerSampleBinding;
 import com.example.devdrops.databinding.CommentSampleBinding;
 import com.example.devdrops.fragments.OtherUserProfileActivity;
 import com.example.devdrops.model.AnswerModel;
@@ -35,7 +36,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.viewHolder
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.comment_sample, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.answer_sample, parent, false);
         return new viewHolder(view);
     }
 
@@ -45,12 +46,13 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.viewHolder
 
         String time = TimeAgo.using(answerModel.getPostedAt());
         holder.binding.time.setText(time);
-
+        holder.binding.answer.setText(answerModel.getAnswer().toString());
 
         FirebaseUtil.PostUsername(answerModel.getPostedby()).get().addOnCompleteListener(task -> {
             UserModel user = task.getResult().toObject(UserModel.class);
 
-            holder.binding.comment.setText(Html.fromHtml( "<b>" + user.getUsername() + "</b>"+ "  " + answerModel.getAnswer()));
+
+            holder.binding.answerLayoutUsername.setText(user.getUsername().toString());
             if (user.getProfile()!=null)
             {
                 Picasso.get()
@@ -98,10 +100,10 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.viewHolder
 
     public class viewHolder extends RecyclerView.ViewHolder{
 
-        CommentSampleBinding binding;
+        AnswerSampleBinding binding;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = CommentSampleBinding.bind(itemView);
+            binding = AnswerSampleBinding.bind(itemView);
         }
     }
 }

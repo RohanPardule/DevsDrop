@@ -3,12 +3,14 @@ package com.example.devdrops.fragments;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.devdrops.R;
@@ -38,7 +40,9 @@ public class CommentActivity extends AppCompatActivity {
     FirebaseDatabase database;
     FirebaseAuth auth;
     ArrayList<Comment> list = new ArrayList<>();
+ImageView back_btn;
 
+int postlike =0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,16 +50,20 @@ public class CommentActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        setSupportActionBar(binding.toolbar3);
-        CommentActivity.this.setTitle("Comments");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        setSupportActionBar(binding.toolbar3);
+//        CommentActivity.this.setTitle("Comments");
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
-
+        back_btn=findViewById(R.id.backbtn_comments);
         intent = getIntent();
         postId = intent.getStringExtra("postId");
         postedBy = intent.getStringExtra("postedBy");
+
+        back_btn.setOnClickListener(view -> {
+            onBackPressed();
+        });
 
         database.getReference()
                 .child("posts")
@@ -69,6 +77,7 @@ public class CommentActivity extends AppCompatActivity {
                                 .into(binding.postImage);
                         binding.description.setText(post.getPostDescription());
                         binding.like.setText(post.getPostLike()+"");
+                        postlike=post.getPostLike();
                         binding.comment.setText(post.getCommentCount()+"");
 
                     }
@@ -163,10 +172,11 @@ public class CommentActivity extends AppCompatActivity {
 
 
         CommentAdapter adapter = new CommentAdapter(this, list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
         binding.commentRv.setLayoutManager(layoutManager);
         binding.commentRv.setAdapter(adapter);
-        binding.commentRv.setNestedScrollingEnabled(false);
+        binding.commentRv.setNestedScrollingEnabled(true);
+
 
 
         database.getReference()
@@ -190,6 +200,122 @@ public class CommentActivity extends AppCompatActivity {
 
                     }
                 });
+
+        FirebaseDatabase.getInstance().getReference()
+                .child("posts")
+                .child(postId)
+                .child("likes")
+                .child(FirebaseAuth.getInstance().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            // User has liked the post
+                           binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_heart_2, 0, 0, 0);
+                        } else {
+                            // User has not liked the post
+                            binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like, 0, 0, 0);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Handle error
+                    }
+                });
+
+        binding.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Check if the current user has liked the post
+                FirebaseDatabase.getInstance().getReference()
+                        .child("posts")
+                        .child(postId)
+                        .child("likes")
+                        .child(FirebaseAuth.getInstance().getUid())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    // User has already liked, implement unlike logic here if needed
+                                    // ...
+
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("posts")
+                                            .child(postId)
+                                            .child("likes")
+                                            .child(FirebaseAuth.getInstance().getUid())
+                                            .removeValue()
+                                            //can use delete too if it wont work
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    // Update local data (increment like count and change drawable)
+
+                                                    int likeCount=postlike-1;
+                                                    binding.like.setText(String.valueOf(likeCount));
+                                                    binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like, 0, 0, 0);
+
+                                                    // Update postLike count in the database
+                                                    FirebaseDatabase.getInstance().getReference()
+                                                            .child("posts")
+                                                            .child(postId)
+                                                            .child("postLike")
+                                                            .setValue(likeCount);
+
+
+                                                }
+                                            });
+
+                                } else {
+                                    // User has not liked, implemented like logic here
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("posts")
+                                            .child(postId)
+                                            .child("likes")
+                                            .child(FirebaseAuth.getInstance().getUid())
+                                            .setValue(true)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    // Update local data (increment like count and change drawable)
+                                                    int likeCount=postlike+1;
+                                                    binding.like.setText(String.valueOf(likeCount));
+                                                    binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_heart_2, 0, 0, 0);
+
+                                                    // Update postLike count in the database
+                                                    FirebaseDatabase.getInstance().getReference()
+                                                            .child("posts")
+                                                            .child(postId)
+                                                            .child("postLike")
+                                                            .setValue(likeCount);
+
+                                                    //  ( sending notification)
+
+                                                    Notification notification = new Notification();
+                                                    notification.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                    notification.setNotificationAt(new Date().getTime());
+                                                    notification.setPostID(postId);
+                                                    notification.setPostedBy(postedBy);
+                                                    notification.setType("like");
+
+                                                    FirebaseDatabase.getInstance().getReference()
+                                                            .child("notification")
+                                                            .child(postedBy)
+                                                            .push()
+                                                            .setValue(notification);
+                                                }
+                                            });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Handle error
+                            }
+                        });
+            }
+        });
     }
 
     @Override

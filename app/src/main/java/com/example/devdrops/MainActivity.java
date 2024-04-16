@@ -15,6 +15,7 @@ import com.example.devdrops.fragments.NotificationActivity;
 import com.example.devdrops.fragments.PostFragment;
 import com.example.devdrops.fragments.ProfileFragment;
 import com.example.devdrops.fragments.QuestionsFragment;
+import com.example.devdrops.fragments.SearchUserActivity;
 import com.example.devdrops.news.NewsActivity;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
@@ -23,7 +24,7 @@ import me.ibrahimsn.lib.SmoothBottomBar;
 public class MainActivity extends AppCompatActivity {
 
     SmoothBottomBar smoothBottomBar;
-    ImageButton newsIcon;
+    ImageButton newsIcon,searchBtn;
     ImageButton notification;
 
     @Override
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         newsIcon = findViewById(R.id.newsAppIcon);
+        searchBtn = findViewById(R.id.search);
         notification = findViewById(R.id.notification);
 
         notification.setOnClickListener(view -> {
@@ -40,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
         });
         newsIcon.setOnClickListener(view -> {
             Intent i = new Intent(MainActivity.this, NewsActivity.class);
+            startActivity(i);
+            overridePendingTransition(R.anim.enter, R.anim.exit);
+        });
+        searchBtn.setOnClickListener(view -> {
+            Intent i = new Intent(MainActivity.this, SearchUserActivity.class);
             startActivity(i);
             overridePendingTransition(R.anim.enter, R.anim.exit);
         });

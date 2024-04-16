@@ -50,7 +50,7 @@ public class NotificationActivity extends AppCompatActivity {
                 .build();
 
 
-        adapter = new NotificationAdapter(options);
+        adapter = new NotificationAdapter(options,NotificationActivity.this);
 
         recyclerView.setAdapter(adapter);
     }

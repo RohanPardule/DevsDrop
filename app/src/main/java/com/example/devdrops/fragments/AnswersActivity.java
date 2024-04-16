@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -20,8 +21,10 @@ import com.example.devdrops.adapter.CommentAdapter;
 import com.example.devdrops.model.AnswerModel;
 import com.example.devdrops.model.Comment;
 import com.example.devdrops.model.Notification;
+import com.example.devdrops.model.QuestionModel;
 import com.example.devdrops.model.UserModel;
 import com.example.devdrops.util.FirebaseUtil;
+import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -41,12 +44,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AnswersActivity extends AppCompatActivity {
 String questionId,questionPostedBy,questionStr,time;
-TextView name,questionTv,timeTv;
+    String answercount_intent;
+TextView name,questionTv,timeTv,answercount_Tv;
 EditText answerEt;
 RecyclerView answerRv;
 ImageView postAnswerBtn;
 CircleImageView profileImage;
     FirebaseDatabase database;
+    ImageView backBtn;
     ArrayList<AnswerModel> list = new ArrayList<>();
 
     @Override
@@ -54,19 +59,21 @@ CircleImageView profileImage;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answers);
         database=FirebaseDatabase.getInstance();
-        name=findViewById(R.id.answer_username);
-        questionTv=findViewById(R.id.answer_question);
-        timeTv=findViewById(R.id.answer_question_time);
+        name=findViewById(R.id.question_username);
+        answercount_Tv=findViewById(R.id.answercount);
+        questionTv=findViewById(R.id.question);
+        timeTv=findViewById(R.id.time);
         answerEt=findViewById(R.id.answerET);
         postAnswerBtn=findViewById(R.id.answerPostBtn);
-        profileImage=findViewById(R.id.answer_profileImage);
+        profileImage=findViewById(R.id.questions_profileImage);
         answerRv=findViewById(R.id.answersRV);
+        backBtn=findViewById(R.id.backbtn_answers);
 
 
 
       getDataFromIntent();
 
-      setUpquestionDetails(questionPostedBy,questionStr,time);
+      setUpquestionDetails(questionPostedBy,questionStr,time,answercount_intent);
 
       postAnswerBtn.setOnClickListener(view -> {
           if (!answerEt.getText().toString().equals("")) {
@@ -95,6 +102,9 @@ CircleImageView profileImage;
                                               if (snapshot.exists()) {
                                                   answercount = snapshot.getValue(Integer.class);
                                               }
+
+                                              int finalAnswercount = answercount;
+                                              int updatecount=answercount+1;
                                               database.getReference()
                                                       .child("queries")
                                                       .child(questionId)
@@ -104,12 +114,14 @@ CircleImageView profileImage;
                                                           public void onSuccess(Void aVoid) {
                                                               answerEt.setText("");
                                                               Toast.makeText(AnswersActivity.this, "Commented Succesfully", Toast.LENGTH_SHORT).show();
+                                                              answercount_Tv.setText(updatecount+" Answers");
 
                                                               Notification notification = new Notification();
                                                               notification.setNotificationBy(FirebaseAuth.getInstance().getUid());
                                                               notification.setNotificationAt(new Date().getTime());
-                                                              notification.setPostID(questionId);
+                                                              notification.setPostID("Na");
                                                               notification.setPostedBy(questionPostedBy);
+                                                              notification.setQuestionId(questionId);
                                                               notification.setType("answer");
 
                                                               FirebaseDatabase.getInstance().getReference()
@@ -147,7 +159,7 @@ CircleImageView profileImage;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         answerRv.setLayoutManager(layoutManager);
        answerRv.setAdapter(adapter);
-       answerRv.setNestedScrollingEnabled(false);
+
 
 
         database.getReference()
@@ -172,15 +184,38 @@ CircleImageView profileImage;
                     }
                 });
 
+        backBtn.setOnClickListener(view -> {
+            onBackPressed();
+        });
+
     }
     void getDataFromIntent(){
         Intent intent=getIntent();
         questionId=  intent.getStringExtra("questionId");
+
+//        database.getReference().child("queries").child(questionId).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                QuestionModel model=snapshot.getValue(QuestionModel.class);
+//                questionPostedBy=model.getPostedby();
+//                questionStr=model.getQuestion();
+//                time= String.valueOf(model.getPostedAt());
+//                answercount_intent= String.valueOf(model.getAnswercount());
+//                Log.d("Questionmodel",model.toString());
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
         questionPostedBy=intent.getStringExtra("questionPostedBy");
         questionStr=intent.getStringExtra("question");
         time=intent.getStringExtra("time");
+        answercount_intent = intent.getStringExtra("answercount");
     }
-    void setUpquestionDetails(String postedBy,String query,String time)
+    void setUpquestionDetails(String postedBy,String query,String time,String answercount)
     {
         FirebaseFirestore.getInstance().collection("users")
                 .document(postedBy).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -196,6 +231,7 @@ CircleImageView profileImage;
                         name.setText(user.getUsername());
                         questionTv.setText(query);
                         timeTv.setText(time);
+                        answercount_Tv.setText(answercount +" Answers");
 
 
 

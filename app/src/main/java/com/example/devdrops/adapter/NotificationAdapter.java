@@ -1,6 +1,8 @@
 package com.example.devdrops.adapter;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devdrops.R;
 import com.example.devdrops.databinding.NotificationRowLayoutBinding;
+import com.example.devdrops.fragments.AnswersActivity;
+import com.example.devdrops.fragments.CommentActivity;
 import com.example.devdrops.model.DashBoardModel;
 import com.example.devdrops.model.Notification;
 import com.example.devdrops.model.UserModel;
@@ -41,10 +45,11 @@ import java.util.Locale;
 
 public class NotificationAdapter extends FirebaseRecyclerAdapter<
         Notification, NotificationAdapter.NotificationViewholder> {
-
+    Context context;
     public NotificationAdapter(
-            @NonNull FirebaseRecyclerOptions<Notification> options) {
+            @NonNull FirebaseRecyclerOptions<Notification> options,Context context) {
         super(options);
+        this.context=context;
     }
 
     @Override
@@ -57,6 +62,26 @@ public class NotificationAdapter extends FirebaseRecyclerAdapter<
 
         String time = TimeAgo.using(notification.getNotificationAt());
         holder.time.setText(time);
+
+        holder.binding.openNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent;
+                if (notification.getPostID().equals("Na")){
+                    intent = new Intent(context, AnswersActivity.class);
+                    intent.putExtra("questionId", notification.getQuestionId());
+
+                }
+                else {
+                    intent = new Intent(context, CommentActivity.class);
+                    intent.putExtra("postId", notification.getPostID());
+                    intent.putExtra("postedBy", notification.getPostedBy());
+                }
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }});
 
         FirebaseFirestore.getInstance().collection("users")
                 .document(notification.getNotificationBy()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

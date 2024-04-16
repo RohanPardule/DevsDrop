@@ -3,12 +3,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/round_corner"
+    android:layout_margin="2dp"
     android:orientation="horizontal">
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/profile_postImage"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_margin="5dp"
+        android:layout_height="@dimen/_90sdp"
+        android:layout_margin="1dp"
         android:scaleType="centerCrop"
         android:src="@drawable/placeholder"
         app:riv_corner_radius="15dip" />

@@ -4,6 +4,7 @@ public class Notification {
 
     private String notificationBy;
     private long notificationAt;
+    private String questionId;
     private String type;
     private String postID;
     private String notificationID;
@@ -64,5 +65,13 @@ public class Notification {
 
     public void setNotificationID(String notificationID) {
         this.notificationID = notificationID;
+    }
+
+    public String getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
     }
 }
