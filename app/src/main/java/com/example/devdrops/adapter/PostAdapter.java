@@ -1,6 +1,7 @@
 package com.example.devdrops.adapter;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,15 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devdrops.R;
+import com.example.devdrops.databinding.DashboardRowLayoutBinding;
 import com.example.devdrops.fragments.CommentActivity;
 import com.example.devdrops.fragments.OtherUserProfileActivity;
 import com.example.devdrops.model.DashBoardModel;
 import com.example.devdrops.model.Notification;
+import com.example.devdrops.model.Report;
 import com.example.devdrops.model.UserModel;
 import com.example.devdrops.util.FirebaseUtil;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -25,6 +29,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
@@ -231,10 +236,14 @@ if (model1.getProfile()!=null)
             }
         });
 
-
+        holder.binding.postMenu.setOnClickListener(v -> {
+            // Show a dialog to report the post
+            showReportDialog(model.getPostId());
+        });
 
 
     }
+
 
 
     @NonNull
@@ -254,10 +263,12 @@ if (model1.getProfile()!=null)
 
         ImageView post_image, menu, comment,profileImage;
         TextView username, description, like, time;
+        DashboardRowLayoutBinding binding;
 
 
         public DashBoardModelsViewholder(@NonNull View itemView) {
             super(itemView);
+            binding=DashboardRowLayoutBinding.bind(itemView);
 
             post_image = itemView.findViewById(R.id.dashBoard_postImage);
             username = itemView.findViewById(R.id.dashBoard_userName);
@@ -268,6 +279,27 @@ if (model1.getProfile()!=null)
             like = itemView.findViewById(R.id.like);
             comment = itemView.findViewById(R.id.comment);
         }
+    }
+
+    private void showReportDialog(String postId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Report Post");
+        String[] reasons = {"Inappropriate content", "Spam", "Harassment"};
+        builder.setItems(reasons, (dialog, which) -> {
+            // Save the report to the database
+            saveReportToDatabase(postId, reasons[which]);
+        });
+        builder.show();
+    }
+
+    private void saveReportToDatabase(String postId, String reason) {
+        // Implement the code to save the report to your database here
+        // For example, if you're using Firebase Realtime Database:
+        DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference("reported_posts");
+        String reportId = reportsRef.push().getKey();
+        Report report = new Report(postId, reason);
+        reportsRef.child(reportId).setValue(report);
+        Toast.makeText(context, "Post reported successfully", Toast.LENGTH_SHORT).show();
     }
 }
 
