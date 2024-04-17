@@ -88,21 +88,21 @@ public class NewsActivity extends AppCompatActivity implements CategoryRVAdapter
 
     private void getCategory() {
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("All", R.drawable.placeholder));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("All", R.drawable.all));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("Technology", R.drawable.placeholder));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("Technology", R.drawable.technology));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("Android Development", R.drawable.placeholder));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("Android Development", R.drawable.androiddev));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("WebDev", R.drawable.placeholder));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("WebDev", R.drawable.webdev));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("machine learning", R.drawable.placeholder));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("machine learning", R.drawable.machinelearning));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("Database", R.drawable.placeholder));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("Database", R.drawable.database));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("AI",R.drawable.placeholder));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("AI",R.drawable.ai));
 
-        categoriesRVModalArrayList.add(new CategoriesRVModal("DevOps", R.drawable.placeholder));
+        categoriesRVModalArrayList.add(new CategoriesRVModal("DevOps", R.drawable.devops));
 
         categoryRVAdapter.notifyDataSetChanged();
 

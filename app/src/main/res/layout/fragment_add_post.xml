@@ -137,6 +137,8 @@
         android:layout_marginStart="16dp"
         android:text="Add to your post"
         android:textColor="@color/black"
+        android:fontFamily="@font/sitka_display"
+        android:textStyle="bold"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/addImg"
         app:layout_constraintStart_toStartOf="parent"

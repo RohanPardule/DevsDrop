@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
     ProfilePostAdapter adapter; // Create Object of the Adapter class
 
     TextView profile_username,followcount,following,noOfpost;
-    TextView profile_Proffesion,edit_profile_btn;
+    TextView profile_Proffesion,edit_profile_btn,settings;
     ImageView profile_imageView;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -110,7 +110,7 @@ public class ProfileFragment extends Fragment {
         noOfpost=rootView.findViewById(R.id.no_of_posts);
         edit_profile_btn=rootView.findViewById(R.id.editProfile);
         swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
-
+settings=rootView.findViewById(R.id.settings);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("Post Uploading");
         dialog.setMessage("Please Wait...");
@@ -157,6 +157,10 @@ loadUserData();
 
         edit_profile_btn.setOnClickListener(view -> {
             Intent i=new Intent(getActivity(), EditProfileActivity.class);
+            getContext().startActivity(i);
+        });
+        settings.setOnClickListener(view -> {
+            Intent i=new Intent(getActivity(), SettingsActivity.class);
             getContext().startActivity(i);
         });
 
