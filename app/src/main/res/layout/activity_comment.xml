@@ -49,28 +49,14 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/toolbar3"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/midnight_blue"-->
-<!--        android:minHeight="?attr/actionBarSize"-->
-<!--        android:theme="?attr/actionBarTheme"-->
-
-<!--           app:subtitleTextColor="@color/white"-->
-<!--        app:titleTextColor="@color/white" />-->
 
     <androidx.core.widget.NestedScrollView
 
-
-
-    android:id="@+id/scrollView"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@+id/view19"
-
         app:layout_constraintTop_toBottomOf="@+id/toolbar3">
 
 
@@ -86,7 +72,7 @@
                 <ImageView
                     android:id="@+id/postImage"
                     android:layout_width="0dp"
-                    android:layout_height="170dp"
+                    android:layout_height="200dp"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -165,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:drawableLeft="@drawable/ic_chat"
+                    android:drawableLeft="@drawable/comment_icon1"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:text="57"
@@ -226,7 +212,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="15dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:hint="Write a comment..."

@@ -3,6 +3,7 @@ package com.example.devdrops.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.devdrops.R;
 import com.example.devdrops.databinding.ActivityCommentBinding;
 import com.example.devdrops.databinding.ActivitySettingsBinding;
+import com.example.devdrops.login.SignUpActivity;
 import com.example.devdrops.util.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -64,8 +66,11 @@ public class SettingsActivity extends AppCompatActivity {
                 // Handle positive (Yes) button click
 
                 FirebaseUtil.logout();
-                dialogInterface.dismiss(); // Dismiss the dialog
 
+                Intent i=new Intent(SettingsActivity.this, SignUpActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);// Dismiss the dialog
+                dialogInterface.dismiss();
 
              }
 

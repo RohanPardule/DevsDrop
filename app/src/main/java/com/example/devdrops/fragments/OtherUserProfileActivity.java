@@ -4,20 +4,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.devdrops.R;
 import com.example.devdrops.adapter.ProfilePostAdapter;
 import com.example.devdrops.databinding.ActivityOtherUserProfileBinding;
 import com.example.devdrops.model.DashBoardModel;
+import com.example.devdrops.model.Report;
 import com.example.devdrops.model.UserModel;
 import com.example.devdrops.util.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -195,19 +199,42 @@ currentUser.collection("following").document(otherUserId).set(currentUsermodel).
         });
 
 
-//        Query query = FirebaseDatabase.getInstance()
-//                .getReference()
-//                .child("posts").orderByChild("postedBy").equalTo(FirebaseUtil.currentUserId()).limitToLast(50);
-//
-//        FirebaseRecyclerOptions<DashBoardModel> options
-//                = new FirebaseRecyclerOptions.Builder<DashBoardModel>()
-//                .setQuery(query, DashBoardModel.class)
-//                .build();
-//
-//        // the Adapter class itself
-//        adapter = new ProfilePostAdapter(options);
-//       binding.profileRv.setAdapter(adapter);
+        binding.reportBtn.setOnClickListener(v -> {
+            // Show a dialog to report the post
+            showReportDialog(otherUserId);
+        });
 
+    }
+    private void showReportDialog(String postId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(OtherUserProfileActivity.this);
+        builder.setTitle("Report User");
+        String[] userReportReasons = {
+                "Inappropriate behavior",
+                "Spamming",
+                "Harassment or bullying",
+                "Impersonation",
+                "Posting sensitive or harmful content",
+                "Violating community guidelines",
+                "Sharing inappropriate content",
+                "Posting misleading information",
+                "Other" 
+        };
+
+        builder.setItems(userReportReasons, (dialog, which) -> {
+            // Save the report to the database
+            saveReportToDatabase(postId, userReportReasons[which]);
+        });
+        builder.show();
+    }
+
+    private void saveReportToDatabase(String postId, String reason) {
+        // Implement the code to save the report to your database here
+        // For example, if you're using Firebase Realtime Database:
+        DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference("reported_users");
+        String reportId = reportsRef.push().getKey();
+        Report report = new Report(postId, reason);
+        reportsRef.child(reportId).setValue(report);
+        Toast.makeText(OtherUserProfileActivity.this, "User reported successfully", Toast.LENGTH_SHORT).show();
     }
 
 }

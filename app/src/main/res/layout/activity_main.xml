@@ -28,7 +28,6 @@
             android:scaleType="centerCrop"
             android:background="@color/Secondary_blue"
             android:layout_marginTop="7dp"
-
             android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/toolBar"
             app:layout_constraintEnd_toStartOf="@+id/notification"

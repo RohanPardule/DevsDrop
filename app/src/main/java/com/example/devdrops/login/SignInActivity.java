@@ -129,36 +129,88 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
+//    private void firebaseAuth(String idToken) {
+//        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+//        mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if ((task.isSuccessful())) {
+//                    // data storing in firebase is handle here
+//                    FirebaseUser user = mAuth.getCurrentUser();
+////                    HashMap<String,Object> map=new HashMap<>();
+////                    map.put("id",user.getUid());
+////                    map.put("name",user.getDisplayName());
+////                    map.put("profile",user.getPhotoUrl().toString());
+//                    UserModel userModel = new UserModel(user.getEmail(), user.getDisplayName(),
+//                            user.getUid(), "Na",user.getPhotoUrl().toString(),0,0,false,0);
+//
+//                    FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            if (task.isSuccessful()) {
+//                                Log.d("firebase", "entered here succesfully");
+//                                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                startActivity(intent);
+//
+//                                finish();
+//                            }
+//
+//                        }
+//                    });
+//
+//
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//    }
     private void firebaseAuth(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if ((task.isSuccessful())) {
-                    // data storing in firebase is handle here
+                if (task.isSuccessful()) {
                     FirebaseUser user = mAuth.getCurrentUser();
-//                    HashMap<String,Object> map=new HashMap<>();
-//                    map.put("id",user.getUid());
-//                    map.put("name",user.getDisplayName());
-//                    map.put("profile",user.getPhotoUrl().toString());
-                    UserModel userModel = new UserModel(user.getEmail(), user.getDisplayName(),
-                            user.getUid(), "Na",user.getPhotoUrl().toString(),0,0,false,0);
 
-                    FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    // Check if user exists
+                    FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
-                                Log.d("firebase", "entered here succesfully");
-                                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    // User exists, go to MainActivity
+                                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    // User doesn't exist, store their data
+                                    UserModel userModel = new UserModel(user.getEmail(), user.getDisplayName(),
+                                            user.getUid(), "Na", user.getPhotoUrl().toString(), 0, 0, false, 0);
 
-                                finish();
+                                    FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d("firebase", "User data stored successfully");
+                                                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Failed to store user data", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Failed to check user existence", Toast.LENGTH_SHORT).show();
                             }
-
                         }
                     });
-
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -166,6 +218,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 
