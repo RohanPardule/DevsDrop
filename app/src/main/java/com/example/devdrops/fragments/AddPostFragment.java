@@ -134,7 +134,6 @@ public class AddPostFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-
                 pickImageActivityResultLauncher.launch(intent);
 
             }

@@ -25,6 +25,7 @@ import com.example.devdrops.fragments.CommentActivity;
 import com.example.devdrops.fragments.OtherUserProfileActivity;
 import com.example.devdrops.model.QuestionModel;
 import com.example.devdrops.model.QuestionModel;
+import com.example.devdrops.model.Report;
 import com.example.devdrops.model.UserModel;
 import com.example.devdrops.util.FirebaseUtil;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -103,6 +104,10 @@ public class QueryAdapter extends FirebaseRecyclerAdapter<
                 context.startActivity(intent);
             }
         });
+        holder.binding.postMenu.setOnClickListener(v -> {
+            // Show a dialog to report the post
+            showReportDialog(questionModel.getQuestionID());
+        });
 
 
 
@@ -140,6 +145,34 @@ public class QueryAdapter extends FirebaseRecyclerAdapter<
             binding = QuestionsRowLayoutBinding.bind(itemView);
 
         }
+    }
+    private void showReportDialog(String postId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Report Post");
+        String[] reasons = { "Inappropriate behavior",
+                "Spamming",
+                "Harassment or bullying",
+                "Impersonation",
+                "Posting sensitive or harmful content",
+                "Violating community guidelines",
+                "Sharing inappropriate content",
+                "Posting misleading information",
+                "Other" };
+        builder.setItems(reasons, (dialog, which) -> {
+            // Save the report to the database
+            saveReportToDatabase(postId, reasons[which]);
+        });
+        builder.show();
+    }
+
+    private void saveReportToDatabase(String postId, String reason) {
+        // Implement the code to save the report to your database here
+        // For example, if you're using Firebase Realtime Database:
+        DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference("reported_queries");
+        String reportId = reportsRef.push().getKey();
+        Report report = new Report(postId, reason);
+        reportsRef.child(reportId).setValue(report);
+        Toast.makeText(context, "Post reported successfully", Toast.LENGTH_SHORT).show();
     }
 }
 
