@@ -53,6 +53,16 @@ public class PostAdapter extends FirebaseRecyclerAdapter<
     protected void
     onBindViewHolder(@NonNull DashBoardModelsViewholder holder,
                      int position, @NonNull DashBoardModel model) {
+try{
+    if (model.isDeleted()) {
+        // Hide or disable the view holder
+        holder.itemView.setVisibility(View.GONE); // Hide the item
+        return; // Exit the method
+    }
+}catch(Exception e){
+
+}
+
 
         FirebaseUtil.PostUsername(model.getPostedBy()).get().addOnCompleteListener(task -> {
             UserModel model1 = task.getResult().toObject(UserModel.class);

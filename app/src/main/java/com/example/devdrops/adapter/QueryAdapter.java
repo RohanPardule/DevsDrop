@@ -58,7 +58,15 @@ public class QueryAdapter extends FirebaseRecyclerAdapter<
                      int position, @NonNull QuestionModel questionModel) {
 
 
+        try{
+            if (questionModel.isDeleted()) {
+                // Hide or disable the view holder
+                holder.itemView.setVisibility(View.GONE); // Hide the item
+                return; // Exit the method
+            }
+        }catch(Exception e){
 
+        }
 
         String time = TimeAgo.using(questionModel.getPostedAt());
         holder.time.setText(time);

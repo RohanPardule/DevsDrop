@@ -46,6 +46,15 @@ public class QuestionModel {
     public void setQuestionID(String questionID) {
         this.questionID = questionID;
     }
+    private  boolean deleted;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     @Override
     public String toString() {

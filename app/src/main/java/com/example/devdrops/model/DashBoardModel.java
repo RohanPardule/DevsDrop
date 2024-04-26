@@ -8,6 +8,15 @@ public class DashBoardModel {
     private long postedAt;
     private int postLike;
     private int commentCount;
+    private boolean deleted;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public int getPostLike() {
         return postLike;
